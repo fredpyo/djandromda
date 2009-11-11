@@ -1,0 +1,17 @@
+
+<cartridge>
+    <templateObject name="strUtils" className="org.apache.commons.lang.StringUtils"/>
+	<template
+        path="templates/SimpleClass.vsl"
+        outputPattern="{outputFileName}.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="clases">  
+<type name="org.andromda.cartridges.simpleclass.metafacade.simpleClassFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>	
+</cartridge>
+
