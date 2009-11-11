@@ -1,0 +1,72 @@
+INFO  2009-11-10 23:10:37,760 - ************************************************************** 
+INFO  2009-11-10 23:10:37,760 - Starting Jakarta Velocity v1.4
+INFO  2009-11-10 23:10:37,760 - RuntimeInstance initializing.
+INFO  2009-11-10 23:10:37,760 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+INFO  2009-11-10 23:10:37,760 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+INFO  2009-11-10 23:10:37,760 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+INFO  2009-11-10 23:10:37,760 - FileResourceLoader : initialization starting.
+INFO  2009-11-10 23:10:37,760 - FileResourceLoader : adding path '.'
+INFO  2009-11-10 23:10:37,760 - FileResourceLoader : initialization complete.
+INFO  2009-11-10 23:10:37,760 - Resource Loader Instantiated: org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:10:37,760 - ClasspathResourceLoader : initialization starting.
+INFO  2009-11-10 23:10:37,760 - ClasspathResourceLoader : initialization complete.
+INFO  2009-11-10 23:10:37,770 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+INFO  2009-11-10 23:10:37,770 - Default ResourceManager initialization complete.
+INFO  2009-11-10 23:10:37,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+INFO  2009-11-10 23:10:37,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+INFO  2009-11-10 23:10:37,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+INFO  2009-11-10 23:10:37,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+INFO  2009-11-10 23:10:37,780 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+INFO  2009-11-10 23:10:37,840 - Created: 20 parsers.
+INFO  2009-11-10 23:10:37,840 - Velocimacro : initialization starting.
+INFO  2009-11-10 23:10:37,840 - Velocimacro : adding VMs from VM library template : templates/meta/RenderTranslation.vm
+INFO  2009-11-10 23:10:37,870 - Velocimacro : added new VM : #renderTranslation( modelElement constraintKind ) : source = templates/meta/RenderTranslation.vm
+INFO  2009-11-10 23:10:37,880 - ResourceManager : found templates/meta/RenderTranslation.vm with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:10:37,880 - Velocimacro :  VM library template macro registration complete.
+INFO  2009-11-10 23:10:37,880 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+INFO  2009-11-10 23:10:37,880 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+INFO  2009-11-10 23:10:37,880 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+INFO  2009-11-10 23:10:37,880 - Velocimacro : messages on  : VM system will output logging messages
+INFO  2009-11-10 23:10:37,880 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+INFO  2009-11-10 23:10:37,880 - Velocimacro : initialization complete.
+INFO  2009-11-10 23:10:37,880 - Velocity successfully started.
+INFO  2009-11-10 23:10:38,060 - ResourceManager : found templates/meta/MetafacadeLogic.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:10:38,341 - ResourceManager : found templates/meta/MetafacadeLogicImpl.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:10:38,381 - ResourceManager : found templates/meta/Metafacade.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:10:38,411 - ResourceManager : found templates/meta/PSMmetaclass.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:16,462 - ************************************************************** 
+INFO  2009-11-10 23:11:16,462 - Starting Jakarta Velocity v1.4
+INFO  2009-11-10 23:11:16,462 - RuntimeInstance initializing.
+INFO  2009-11-10 23:11:16,462 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+INFO  2009-11-10 23:11:16,477 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+INFO  2009-11-10 23:11:16,492 - Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+INFO  2009-11-10 23:11:16,492 - FileResourceLoader : initialization starting.
+INFO  2009-11-10 23:11:16,492 - FileResourceLoader : adding path '.'
+INFO  2009-11-10 23:11:16,492 - FileResourceLoader : initialization complete.
+INFO  2009-11-10 23:11:16,492 - Resource Loader Instantiated: org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:16,492 - ClasspathResourceLoader : initialization starting.
+INFO  2009-11-10 23:11:16,492 - ClasspathResourceLoader : initialization complete.
+INFO  2009-11-10 23:11:16,492 - ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+INFO  2009-11-10 23:11:16,492 - Default ResourceManager initialization complete.
+INFO  2009-11-10 23:11:16,492 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+INFO  2009-11-10 23:11:16,492 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+INFO  2009-11-10 23:11:16,507 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+INFO  2009-11-10 23:11:16,507 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+INFO  2009-11-10 23:11:16,507 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+INFO  2009-11-10 23:11:16,597 - Created: 20 parsers.
+INFO  2009-11-10 23:11:16,612 - Velocimacro : initialization starting.
+INFO  2009-11-10 23:11:16,612 - Velocimacro : adding VMs from VM library template : templates/meta/RenderTranslation.vm
+INFO  2009-11-10 23:11:16,642 - Velocimacro : added new VM : #renderTranslation( modelElement constraintKind ) : source = templates/meta/RenderTranslation.vm
+INFO  2009-11-10 23:11:16,657 - ResourceManager : found templates/meta/RenderTranslation.vm with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:16,657 - Velocimacro :  VM library template macro registration complete.
+INFO  2009-11-10 23:11:16,657 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+INFO  2009-11-10 23:11:16,657 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+INFO  2009-11-10 23:11:16,657 - Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+INFO  2009-11-10 23:11:16,657 - Velocimacro : messages on  : VM system will output logging messages
+INFO  2009-11-10 23:11:16,657 - Velocimacro : autoload off  : VM system will not automatically reload global library macros
+INFO  2009-11-10 23:11:16,657 - Velocimacro : initialization complete.
+INFO  2009-11-10 23:11:16,657 - Velocity successfully started.
+INFO  2009-11-10 23:11:16,973 - ResourceManager : found templates/meta/MetafacadeLogic.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:17,378 - ResourceManager : found templates/meta/MetafacadeLogicImpl.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:17,423 - ResourceManager : found templates/meta/Metafacade.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader
+INFO  2009-11-10 23:11:17,484 - ResourceManager : found templates/meta/PSMmetaclass.vsl with loader org.andromda.templateengines.velocity.ClasspathResourceLoader

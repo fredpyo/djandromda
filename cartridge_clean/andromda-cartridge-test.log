@@ -1,0 +1,3 @@
+2009-11-10 23:11:36,666 INFO  [AndroMDA] Logging configured from external source --> 'file:C:\Documents and Settings\sergio\Escritorio\MDA\Cartuchos\djandromda\cartridge_clean/conf/test/log4j.xml'
+2009-11-10 23:11:36,681 INFO  [org.andromda.cartridges.testsuite.CartridgeTest]  --- Expecting 0 Generated Files --- 
+2009-11-10 23:11:36,681 INFO  [org.andromda.cartridges.testsuite.CartridgeTest] binary suffixes --> [jpg, jpeg, gif, png, jar, zip]
