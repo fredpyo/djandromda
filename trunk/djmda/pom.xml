@@ -7,10 +7,12 @@
     </parent>
     <artifactId>andromda-cartridge-complemento</artifactId>
     <packaging>andromda-cartridge</packaging>
-    <name>Cartridge Clase de Complemento</name>
+    <name>Cartridge djMDA</name>
     <description>
-      Genera una pagina php a partir de clases
-	  en el modelo
+      Genera modelos de django y scripts postgresql a oartur de clases
+	  en el modelo.
+	  Trabajo practico de la materia Complementos de Informatica.
+	  Universidad Católica "Nuestra Señora de la Asunción"
     </description>
     <dependencies>
         <dependency>
