@@ -1,0 +1,31 @@
+2009-11-10 22:00:41,040 INFO  [AndroMDA] - discovering namespaces -
+2009-11-10 22:00:41,490 INFO  [AndroMDA] found namespace --> 'emf-uml2'
+2009-11-10 22:00:41,490 INFO  [AndroMDA]   +  registering component 'repository'
+2009-11-10 22:00:41,550 INFO  [AndroMDA]   +  registering component 'metafacades'
+2009-11-10 22:00:41,956 INFO  [AndroMDA]   +  registering component 'profile'
+2009-11-10 22:00:42,016 INFO  [AndroMDA] found namespace --> 'java'
+2009-11-10 22:00:42,016 INFO  [AndroMDA]   +  registering component 'cartridge'
+2009-11-10 22:00:42,121 INFO  [AndroMDA]   +  registering component 'profile'
+2009-11-10 22:00:42,136 INFO  [AndroMDA] found namespace --> 'meta'
+2009-11-10 22:00:42,151 INFO  [AndroMDA]   +  registering component 'cartridge'
+2009-11-10 22:00:42,181 INFO  [AndroMDA]   +  registering component 'metafacades'
+2009-11-10 22:00:42,241 INFO  [AndroMDA]   +  registering component 'profile'
+2009-11-10 22:00:42,241 INFO  [AndroMDA] found namespace --> 'netBeansMDR'
+2009-11-10 22:00:42,256 INFO  [AndroMDA]   +  registering component 'repository'
+2009-11-10 22:00:42,452 INFO  [AndroMDA] found namespace --> 'uml-1.4'
+2009-11-10 22:00:42,452 INFO  [AndroMDA]   +  registering component 'metafacades'
+2009-11-10 22:00:43,038 INFO  [AndroMDA]   +  registering component 'profile'
+2009-11-10 22:00:43,053 INFO  [AndroMDA] found namespace --> 'validation'
+2009-11-10 22:00:43,053 INFO  [AndroMDA]   +  registering component 'translation-library'
+2009-11-10 22:00:46,838 INFO  [AndroMDA] - core initialization complete: 6.459[s] -
+2009-11-10 22:00:47,799 INFO  [AndroMDA] loading model --> 'jar:file:C:/Documents and Settings/sergio/Escritorio/MDA/Cartuchos/cartridge_clean/src/uml/DeploymentMetafacadeModel.xml.zip!/DeploymentMetafacadeModel.xml'
+2009-11-10 22:00:49,647 INFO  [AndroMDA] referenced model --> 'jar:file:/C:/Documents and Settings/sergio/.m2/repository/org/andromda/profiles/uml14/andromda-profile-datatype/3.2/andromda-profile-datatype-3.2.xml.zip!/andromda-profile-datatype-3.2.xml'
+2009-11-10 22:00:49,782 INFO  [AndroMDA] referenced model --> 'jar:file:/C:/Documents and Settings/sergio/.m2/repository/org/andromda/profiles/uml14/andromda-profile-meta/3.2/andromda-profile-meta-3.2.xml.zip!/andromda-profile-meta-3.2.xml'
+2009-11-10 22:00:49,857 INFO  [AndroMDA] referenced model --> 'jar:file:/C:/Documents and Settings/sergio/.m2/repository/org/andromda/metafacades/andromda-metafacades-uml/3.2/andromda-metafacades-uml-3.2.xml.zip!/andromda-metafacades-uml-3.2.xml'
+2009-11-10 22:00:50,578 INFO  [AndroMDA] - loading complete: 3.199[s] -
+2009-11-10 22:00:50,578 INFO  [AndroMDA] - validating model -
+2009-11-10 22:00:56,031 INFO  [AndroMDA] - validation complete: 5.453[s] -
+2009-11-10 22:00:56,933 INFO  [AndroMDA:meta] Output: 'file:/C:/Documents%20and%20Settings/sergio/Escritorio/MDA/Cartuchos/cartridge_clean/target/src/org/andromda/cartridges/simpleclass/metafacades/simpleClassFacadeLogic.java'
+2009-11-10 22:00:57,023 INFO  [AndroMDA:meta] Output: 'file:/C:/Documents%20and%20Settings/sergio/Escritorio/MDA/Cartuchos/cartridge_clean/target/src/org/andromda/cartridges/simpleclass/metafacades/simpleClassFacade.java'
+2009-11-10 22:00:57,113 INFO  [AndroMDA:meta] Output: 'file:/C:/Documents%20and%20Settings/sergio/Escritorio/MDA/Cartuchos/cartridge_clean/target/src/org/andromda/cartridges/simpleclass/psm/PyFunc.java'
+2009-11-10 22:00:57,323 INFO  [AndroMDA] completed model processing --> TIME: 10.47[s], RESOURCES WRITTEN: 3

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<profile>
+    <documentation>
+    </documentation>
+    <elements>
+        <elementGroup name="Stereotypes">
+			<element name="SIMPLE_CLASS">
+                <documentation>
+                    estoy jodiendo!!!!
+				</documentation>
+                <value>SimpleClass</value>
+                <appliedOnElement>class</appliedOnElement>
+            </element>       
+        </elementGroup>
+    </elements>
+</profile>

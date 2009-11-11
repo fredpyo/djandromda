@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- contains the cartridge metafacade mappings -->
+<metafacades>
+	<metafacade class="org.andromda.cartridges.simpleclass.metafacades.SimpleClassFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl"> 
+			<stereotype>SIMPLE_CLASS</stereotype>
+		</mapping>	
+    </metafacade>
+</metafacades>
