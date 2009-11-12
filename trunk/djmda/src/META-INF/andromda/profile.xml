@@ -4,11 +4,11 @@
     </documentation>
     <elements>
         <elementGroup name="Stereotypes">
-			<element name="SIMPLE_CLASS">
+			<element name="MODEL">
                 <documentation>
-                    Indica el concepto de una clase simplificada
+					Concepto de Modelo :D
                 </documentation>
-                <value>SimpleClass</value>
+                <value>Model</value>
                 <appliedOnElement>class</appliedOnElement>
             </element>       
         </elementGroup>
