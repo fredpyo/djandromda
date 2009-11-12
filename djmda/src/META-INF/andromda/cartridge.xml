@@ -2,13 +2,13 @@
 <cartridge>
     <templateObject name="strUtils" className="org.apache.commons.lang.StringUtils"/>
 	<template
-        path="templates/SimpleClass.vsl"
-        outputPattern="{outputFileName}.py"
+        path="templates/Model.vsl"
+        outputPattern="${outputFileName}.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
         <modelElements>
-            <modelElement variable="clases">  
+            <modelElement variable="model">  
 <type name="org.andromda.cartridges.djmda.metafacades.ModelFacade"/>
             </modelElement>
         </modelElements>
