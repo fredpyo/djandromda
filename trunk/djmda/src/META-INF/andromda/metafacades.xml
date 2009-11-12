@@ -4,7 +4,7 @@
 <metafacades>
 	<metafacade class="org.andromda.cartridges.djmda.metafacades.ModelFacadeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.UmlClass$Impl"> 
-			<stereotype></stereotype>
+			<stereotype>MODEL</stereotype>
 		</mapping>	
     </metafacade>
 </metafacades>
