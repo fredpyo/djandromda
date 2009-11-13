@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import org.andromda.cartridges.djmda.psm.PyFunc;
 import org.andromda.metafacades.uml.AttributeFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.OperationFacade;
 
 /**
@@ -33,14 +34,36 @@ public class ModelFacadeLogicImpl
     	ArrayList varArr = new ArrayList();
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
 			AttributeFacade attribute = (AttributeFacade) iterator.next();
-			String variableName =  attribute.getName() + " = None";
+			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType().getName());
 			varArr.add(variableName);
     	}
         return varArr;
     }
 
-
-    /**
+   
+	
+    private String pyDataType(String type) {
+		// TODO Auto-generated method stub
+		if (type.equals("String")){
+			return "models.CharField(max_length = 500)";
+		}
+		if (type.equals("Integer")){
+			return "models.IntegerField()";
+		}
+		if (type.equals("Boolean")){
+			return "models.BooleanField()";
+		}
+		
+		if (type.equals("Date")){
+			return "models.DateField()";
+		}
+		if (type.equals("DateTime")){
+			return "models.DateField()";
+		}
+    	
+    	return null;
+	}
+	/**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#operToPy()
      */
     protected java.util.Collection handleOperToPy()
