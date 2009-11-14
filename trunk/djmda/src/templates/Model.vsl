@@ -9,11 +9,17 @@ from django.db import models
 #set( $functions = $model.operToPy() ) 
 ## SE TRANSFORMAN LOS ATRIBUTOS A NOMBRES DE VARIABLES PHP
 #set( $variables = $model.attrToPy() ) 
+## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
+#set( $relationships = $model.assocToPy() ) 
+
 class $model.getName()(models.Model):
     '''
 	doc de la clase
 	'''
 ## SE MUESTRAN LAS VARIABLES DE LA CLASE
+#foreach($relation in $relationships)
+    $relation
+#end
 #foreach($variable in $variables)
     $variable
 #end
