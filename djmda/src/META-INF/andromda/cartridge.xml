@@ -15,7 +15,46 @@
             </modelElement>
         </modelElements>
     </template>
+
+	<template
+        path="templates/ProjectUrls.vsl"
+        outputPattern="urls.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="project">  
+<type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+
+	<template
+        path="templates/ProjectManage.vsl"
+        outputPattern="manage.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="project">  
+<type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
 	
+
+	<template
+        path="templates/ProjectInit.vsl"
+        outputPattern="__init__.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="project">  
+<type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
 	<!-- MODEL -->
 	<template
         path="templates/Model.vsl"
@@ -56,10 +95,23 @@
             </modelElement>
         </modelElements>
     </template>
-	
+
 	<template
         path="templates/AppInit.vsl"
         outputPattern="${appName}/__init__.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="app">  
+<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+
+	<template
+        path="templates/AppAdmin.vsl"
+        outputPattern="${appName}/admin.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>

@@ -77,7 +77,7 @@ public class AppFacadeLogicImpl
         return imports;
     }
     
-    private String getProjectName() {
+    protected String handleGetProjectName() {
     	return this.getPackage().getName();
     }
 }
