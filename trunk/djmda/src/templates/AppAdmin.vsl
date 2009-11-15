@@ -1,0 +1,11 @@
+#set( $appName = $app.getName().toLowerCase())
+#set( $project_name = $app.getProjectName().toLowerCase())
+#set( $import_path = $project_name+"."+$appName+".models" )
+from django.contrib import admin
+# import locales
+from ${project_name}.${appName}.models import *
+
+#set( $models = $app.getModels() )
+#foreach($model in $models)
+admin.site.register($model.getName())
+#end
