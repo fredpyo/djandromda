@@ -11,6 +11,20 @@
                 <value>Model</value>
                 <appliedOnElement>class</appliedOnElement>
             </element>       
+			<element name="APP">
+                <documentation>
+					Concepto de Aplicación
+                </documentation>
+                <value>App</value>
+                <appliedOnElement>package</appliedOnElement>
+            </element>       
+			<!--<element name="PROJECT">
+                <documentation>
+					Concepto de Proyecto
+                </documentation>
+                <value>Project</value>
+                <appliedOnElement>package</appliedOnElement>
+            </element>-->
         </elementGroup>
     </elements>
 </profile>

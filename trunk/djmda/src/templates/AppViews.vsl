@@ -1,0 +1,3 @@
+#set( $appName = $app.getName().toLowerCase())
+
+# agregar vistas acá
