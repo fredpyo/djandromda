@@ -18,13 +18,13 @@
                 <value>App</value>
                 <appliedOnElement>package</appliedOnElement>
             </element>       
-			<!--<element name="PROJECT">
+			<element name="PROJECT">
                 <documentation>
 					Concepto de Proyecto
                 </documentation>
                 <value>Project</value>
                 <appliedOnElement>package</appliedOnElement>
-            </element>-->
+            </element>
         </elementGroup>
     </elements>
 </profile>
