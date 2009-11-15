@@ -1,6 +1,22 @@
 
 <cartridge>
     <templateObject name="strUtils" className="org.apache.commons.lang.StringUtils"/>
+
+	<!-- PROYECTO -->
+	<!-- <template
+        path="templates/ProjectSettings.vsl"
+        outputPattern="settings.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="project">  
+<type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
+            </modelElement>
+        </modelElements>
+    </template> -->
+	
+	<!-- MODEL -->
 	<template
         path="templates/Model.vsl"
         outputPattern="${outputFileName}.py"
@@ -13,5 +29,46 @@
             </modelElement>
         </modelElements>
     </template>	
+
+	<!-- APPLICATIONS -->
+	<template
+        path="templates/AppModels.vsl"
+        outputPattern="${appName}/models.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="app">  
+<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+	
+	<template
+        path="templates/AppViews.vsl"
+        outputPattern="${appName}/views.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="app">  
+<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+	
+	<template
+        path="templates/AppInit.vsl"
+        outputPattern="${appName}/__init__.py"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="app">  
+<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+	
 </cartridge>
 
