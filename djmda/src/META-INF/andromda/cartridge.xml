@@ -3,7 +3,7 @@
     <templateObject name="strUtils" className="org.apache.commons.lang.StringUtils"/>
 
 	<!-- PROYECTO -->
-	<!-- <template
+	<template
         path="templates/ProjectSettings.vsl"
         outputPattern="settings.py"
         outlet="deploymentreport"
@@ -14,7 +14,7 @@
 <type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
             </modelElement>
         </modelElements>
-    </template> -->
+    </template>
 	
 	<!-- MODEL -->
 	<template

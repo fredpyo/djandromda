@@ -12,9 +12,9 @@
 			<stereotype>APP</stereotype>
 		</mapping>	
     </metafacade>
-	<!--<metafacade class="org.andromda.cartridges.djmda.metafacades.ProjectFacadeLogicImpl">
+	<metafacade class="org.andromda.cartridges.djmda.metafacades.ProjectFacadeLogicImpl">
         <mapping class="org.omg.uml.modelmanagement.UmlPackage$Impl"> 
 			<stereotype>PROJECT</stereotype>
 		</mapping>	
-    </metafacade>-->
+    </metafacade>
 	</metafacades>
