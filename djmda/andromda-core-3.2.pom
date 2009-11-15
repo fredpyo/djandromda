@@ -63,6 +63,7 @@
         </executions>
         <configuration>
           <installDirectory>${basedir}/../lib</installDirectory>
+		  <outputEncoding>UTF-8</outputEncoding> 
         </configuration>
       </plugin>
     </plugins>
