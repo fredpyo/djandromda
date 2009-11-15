@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #set( $appName = $app.getName().toLowerCase())
 from django.db import models
 #set( $imports = $app.importModelsToPy() )
@@ -8,18 +9,18 @@ $import
 #end
 
 #foreach($model in $models) ## begin modelos
-	## SE TRANSFORMAN LAS OPERACIONES A UN OBJETO PHPFunction
-	#set( $functions = $model.operToPy() ) 
-	## SE TRANSFORMAN LOS ATRIBUTOS A NOMBRES DE VARIABLES PHP
-	#set( $variables = $model.attrToPy() ) 
-	## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
-	#set( $relationships = $model.assocToPy() ) 
-	#set( $imports = $model.importToPy() ) 
+    ## SE TRANSFORMAN LAS OPERACIONES A UN OBJETO PHPFunction
+    #set( $functions = $model.operToPy() ) 
+    ## SE TRANSFORMAN LOS ATRIBUTOS A NOMBRES DE VARIABLES PHP
+    #set( $variables = $model.attrToPy() ) 
+    ## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
+    #set( $relationships = $model.assocToPy() ) 
+    #set( $imports = $model.importToPy() ) 
 
 class $model.getName()(models.Model):
     '''
-	doc de la clase
-	'''
+    doc de la clase
+    '''
 ## SE MUESTRAN LAS VARIABLES DE LA CLASE
 #foreach($relation in $relationships)
     $relation
@@ -32,10 +33,10 @@ class $model.getName()(models.Model):
     
     def $function.getName()(self$function.getParameters()):
         '''
-		doc de la funcion
-		'''
-		# TODO: put your implementation here
-		pass
+        doc de la funcion
+        '''
+        # TODO: put your implementation here
+        pass
 
 #end
 
