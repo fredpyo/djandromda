@@ -1,5 +1,6 @@
 package org.andromda.cartridges.djmda.metafacades;
 
+import java.text.ChoiceFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,6 +8,10 @@ import java.util.Iterator;
 import org.andromda.cartridges.djmda.metafacades.ModelFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.EnumerationFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 
 
 /**
@@ -44,6 +49,38 @@ public class AppFacadeLogicImpl
     	}
     	
         return models;
+    }
+    
+    /**
+     * @see org.andromda.cartridges.djmda.metafacades.AppFacade#getModels()
+     */
+    protected java.util.Collection handleGetChoices()
+    {
+    	Collection elements = this.getModelElements();
+    	ArrayList choices = new ArrayList();
+    	
+    	for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
+    		try {
+    			EnumerationFacade sd = (EnumerationFacade) iterator.next();
+    			//ClassifierFacade sd = (ClassifierFacade) iterator.next();
+    			if (sd.getStereotypeNames().contains("Enumeration"))
+    			//if (true)
+    				choices.add(sd);
+    		} catch (Exception ex) {}
+    	}
+    	
+    	/*CollectionUtils.filter(choices, new Predicate() {
+    		public boolean evaluate(Object object) {
+    			try {
+        			final ClassifierFacade sd = (ClassifierFacade) object;
+        			return true;    				
+    			} catch (Exception ex) {
+    				return false;
+    			}
+    		}
+    	});*/
+    	
+        return choices;
     }
     
     /**
