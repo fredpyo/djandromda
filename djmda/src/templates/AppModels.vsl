@@ -3,9 +3,18 @@
 from django.db import models
 #set( $imports = $app.importModelsToPy() )
 #set( $models = $app.getModels() )
+#set( $choices = $app.getChoices() )
 
 #foreach($import in $imports)
 $import
+#end
+
+# choices go here
+#foreach ($choice in $choices)
+    $choice
+    $choice.getStereotypeNames()
+    $choice.getLiterals()
+	$choice.getChoices()
 #end
 
 #foreach($model in $models) ## begin modelos
