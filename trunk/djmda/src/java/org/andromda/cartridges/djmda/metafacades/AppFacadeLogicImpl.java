@@ -56,17 +56,14 @@ public class AppFacadeLogicImpl
      */
     protected java.util.Collection handleGetChoices()
     {
-    	Collection elements = this.getModelElements();
+    	Collection elements = this.getClasses();
     	ArrayList choices = new ArrayList();
     	
     	for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
-    		try {
-    			EnumerationFacade sd = (EnumerationFacade) iterator.next();
-    			//ClassifierFacade sd = (ClassifierFacade) iterator.next();
-    			if (sd.getStereotypeNames().contains("Enumeration"))
-    			//if (true)
-    				choices.add(sd);
-    		} catch (Exception ex) {}
+			ClassifierFacade sd = (ClassifierFacade) iterator.next();
+			if (sd.isEnumeration()) {
+				choices.add(new ChoiceFacadeLogicImpl(sd, null));
+			}
     	}
     	
     	/*CollectionUtils.filter(choices, new Predicate() {

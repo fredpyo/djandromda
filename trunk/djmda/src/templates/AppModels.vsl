@@ -11,10 +11,11 @@ $import
 
 # choices go here
 #foreach ($choice in $choices)
-    $choice
-    $choice.getStereotypeNames()
-    $choice.getLiterals()
-	$choice.getChoices()
+$choice.getName().toUpperCase()_CHOICES = (
+#foreach ($choice_element in $choice.getChoices())
+    $choice_element,
+#end
+)
 #end
 
 #foreach($model in $models) ## begin modelos
