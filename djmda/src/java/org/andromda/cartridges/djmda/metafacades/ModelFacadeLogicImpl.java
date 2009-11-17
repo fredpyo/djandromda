@@ -77,7 +77,7 @@ public class ModelFacadeLogicImpl
     	ArrayList varArr = new ArrayList();
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
 			AttributeFacade attribute = (AttributeFacade) iterator.next();
-			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType().getName());
+			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType());
 			varArr.add(variableName);
     	}
         return varArr;
@@ -85,22 +85,27 @@ public class ModelFacadeLogicImpl
 
    
 	
-    private String pyDataType(String type) {
+    private String pyDataType(ClassifierFacade type) {
 		// TODO Auto-generated method stub
-		if (type.equals("String")){
+    	String typeName = type.getName();
+    	
+    	if (type.isEnumeration()) {
+    		return "models.CharField(max_length = 100, choices = " + type.getName().toUpperCase() + "_CHOICES)";
+    	}
+		if (typeName.equals("String")){
 			return "models.CharField(max_length = 500)";
 		}
-		if (type.equals("Integer")){
+		if (typeName.equals("Integer")){
 			return "models.IntegerField()";
 		}
-		if (type.equals("Boolean")){
+		if (typeName.equals("Boolean")){
 			return "models.BooleanField()";
 		}
 		
-		if (type.equals("Date")){
+		if (typeName.equals("Date")){
 			return "models.DateField()";
 		}
-		if (type.equals("DateTime")){
+		if (typeName.equals("DateTime")){
 			return "models.DateTimeField()";
 		}
     	

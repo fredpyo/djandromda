@@ -3,6 +3,7 @@ package org.andromda.cartridges.djmda.metafacades;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.EnumerationLiteralFacade;
 
 
@@ -26,11 +27,10 @@ public class ChoiceFacadeLogicImpl
     {
     	ArrayList choices = new ArrayList();
     	for (Iterator iterator = this.getLiterals().iterator(); iterator.hasNext();) {
-    		EnumerationLiteralFacade literal = (EnumerationLiteralFacade) iterator.next();
-    		String a[] = {literal.getName().toLowerCase(), literal.getName().toLowerCase()};
-    		choices.add(String.format("(%s, %s)", a));
+    		AttributeFacade literal = (AttributeFacade) iterator.next();
+    		String a[] = {literal.getName().toLowerCase(), literal.getName()};
+    		choices.add(String.format("('%s', '%s')", a));
     	}
         return choices;
     }
-
 }
