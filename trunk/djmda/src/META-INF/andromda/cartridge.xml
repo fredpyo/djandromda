@@ -3,6 +3,7 @@
     <templateObject name="strUtils" className="org.apache.commons.lang.StringUtils"/>
 
 	<!-- PROYECTO -->
+	<!-- IMPORTANTE -->
 	<template
         path="templates/ProjectSettings.vsl"
         outputPattern="settings.py"
@@ -55,21 +56,9 @@
             </modelElement>
         </modelElements>
     </template>
-	<!-- MODEL -->
-	<template
-        path="templates/Model.vsl"
-        outputPattern="${outputFileName}.py"
-        outlet="deploymentreport"
-	overwrite="true"
-		>
-        <modelElements>
-            <modelElement variable="model">  
-<type name="org.andromda.cartridges.djmda.metafacades.ModelFacade"/>
-            </modelElement>
-        </modelElements>
-    </template>	
 
 	<!-- APPLICATIONS -->
+	<!-- IMPORTANTE -->
 	<template
         path="templates/AppModels.vsl"
         outputPattern="${appName}/models.py"
