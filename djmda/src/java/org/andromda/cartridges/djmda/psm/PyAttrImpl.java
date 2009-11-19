@@ -52,6 +52,13 @@ public class PyAttrImpl
     public java.lang.String toDjango()
     {
         // @todo implement public java.lang.String toDjango()
+    	// TODO: IDEA DE ESTE METODO
+    	// Al ser invocado debe retornar un string tipo nombre = models.CharField(max_length = 220, unique = True)
+    	// Lo que se me ocurre es que esta función retorne algo así:
+    	// return this.name + " = " + this.dataType.toDjango()
+    	// con lo que dataType.toDjango() retornará algo como "models.CharField(max_length = 220, unique = True)
+    	// formando el string que nos interesa
+    	// el resto de la documentación la pongo en @see:DjDataTypeImpl.java (le podés hacer Ctrl + Click y te va a llevar)
         throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.PyAttr.toDjango() Not implemented!");
     }
 
