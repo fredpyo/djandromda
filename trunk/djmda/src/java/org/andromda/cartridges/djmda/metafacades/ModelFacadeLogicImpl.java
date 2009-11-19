@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.cartridges.djmda.psm.DjDataType;
+import org.andromda.cartridges.djmda.psm.DjDataTypeImpl;
+import org.andromda.cartridges.djmda.psm.PyAttr;
+import org.andromda.cartridges.djmda.psm.PyAttrImpl;
 import org.andromda.cartridges.djmda.psm.PyFunc;
 import org.andromda.metafacades.uml.AssociationClassFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
@@ -48,25 +52,6 @@ public class ModelFacadeLogicImpl
         return relArr;
     }
 
-    protected java.util.Collection handleImportToPy()
-    {
-    	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
-    	ArrayList relArr = new ArrayList();
-    	//Collection assocArr2 = this.getAssociatedClasses();
-
-    	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
-    		AssociationEndFacade assoc = (AssociationEndFacade) iterator.next();
-    		assoc = assoc.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
-    		if (assoc.isNavigable()) {
-    			ClassifierFacade classifier = assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
-        		String relString = classifier.getName();
-        		relArr.add(relString);
-    		}
-    	}
-        return relArr;
-    }
-
-    
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#attrToPy()
      */
@@ -77,6 +62,9 @@ public class ModelFacadeLogicImpl
     	ArrayList varArr = new ArrayList();
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
 			AttributeFacade attribute = (AttributeFacade) iterator.next();
+			//PyAttr pyAttribute = new PyAttr(attribute.getName(), new DjDataTypeImpl(attribute));
+			PyAttr pyAttribute = new PyAttrImpl(attribute);
+			
 			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType());
 			varArr.add(variableName);
     	}
