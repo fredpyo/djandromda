@@ -8,7 +8,8 @@ import java.util.Iterator;
 
 import org.andromda.cartridges.djmda.psm.DjDataType;
 import org.andromda.cartridges.djmda.psm.DjDataTypeImpl;
-import org.andromda.cartridges.djmda.psm.PyAttr;
+import org.andromda.cartridges.djmda.psm.*;
+//import org.andromda.cartridges.djmda.psm.DjDataTypeParameter;
 import org.andromda.cartridges.djmda.psm.PyAttrImpl;
 import org.andromda.cartridges.djmda.psm.PyFunc;
 import org.andromda.metafacades.uml.AssociationClassFacade;
@@ -65,7 +66,7 @@ public class ModelFacadeLogicImpl
 			//PyAttr pyAttribute = new PyAttr(attribute.getName(), new DjDataTypeImpl(attribute));
 			PyAttr pyAttribute = new PyAttrImpl(attribute);
 			
-			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType());
+			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType(),pyAttribute);
 			varArr.add(variableName);
     	}
         return varArr;
@@ -73,35 +74,76 @@ public class ModelFacadeLogicImpl
 
    
 	
-    private String pyDataType(ClassifierFacade type) {
+    private String pyDataType(ClassifierFacade type,PyAttr Djfields) {
 		// TODO Auto-generated method stub
     	String typeName = type.getName();
-    	
+    	String fields="";
+    	String headfield="";
     	if (type.isEnumeration()) {
-    		return "models.CharField(max_length = 100, choices = " + type.getName().toUpperCase() + "_CHOICES)";
+    		//typeName = "models.CharField(max_length = 100, choices = " + type.getName().toUpperCase() + "_CHOICES)";
+    		headfield = "models.CharField(choices = " + type.getName().toUpperCase();
+    		
     	}
 		if (typeName.equals("String")){
-			return "models.CharField(max_length = 500)";
+			//return "models.CharField(max_length = 500)";
+			headfield = "models.CharField(";
+    		
 		}
 		if (typeName.equals("Integer")){
-			return "models.IntegerField()";
+			headfield = "models.IntegerField(";
 		}
 		if (typeName.equals("Boolean")){
-			return "models.BooleanField()";
+			headfield = "models.BooleanField(";
 		}
 		
 		if (typeName.equals("Date")){
-			return "models.DateField()";
+			headfield = "models.DateField(";
 		}
 		if (typeName.equals("DateTime")){
-			return "models.DateTimeField()";
+			headfield = "models.DateTimeField(";
 		}
     	
-    	return null;
+		for (Iterator iterator = Djfields.getDataType().getParameters().iterator(); iterator.hasNext();) {
+			DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
+			if(pivot.getKey().equals("djfield")){
+				headfield = pyParser(pivot.getKey(),(String)pivot.getValue());
+			}else{
+				fields += pyParser(pivot.getKey(),(String)pivot.getValue());
+			}
+			//fields += ", " + pivot.getKey() + " = " + (String)pivot.getValue() ;
+		    
+			}
+		return headfield + fields + ")";
+	}
+    
+private String pyParser(String key, String value) {
+    if (key.equals("djfield")){
+    	return "models.Passfield(";
+    }
+    if (key.equals("unique")){
+    	return " unique = " + trueParser(value);
+    }
+    if (key.equals("blank")){
+    	return " blank = " + trueParser(value);
+    }
+    if (key.equals("str_length")){
+    	return " max_length = " + value;
+    }
+    
+    
+    return null;
 	}
 	/**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#operToPy()
      */
+private String trueParser(String bool) {
+	if(bool.equals("true")){
+		return " True ";
+	}
+	else{
+		return " False ";
+	}
+}
     protected java.util.Collection handleOperToPy()
     {
         // TODO: put your implementation here.
