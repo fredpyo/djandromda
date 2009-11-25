@@ -72,19 +72,38 @@ public class DjDataTypeImpl
     public java.lang.String toDjango()
     {
         String field="";
-        
         String headfield="";
     
+	    	//AQUI SE RECOORRRE LOS PARAMETROS Y SE LOS PARSEA CON PYPARSER sI ES djfield SE PARSEA LA CABECERA 
+	    	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
+	        		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
+	        		//if(pivot.getKey().equals("djfield")){
+	    			//	headfield = pyParser(pivot.getKey(),(String)pivot.getValue());
+	    			//}else{
+	    				field += pyParser(pivot.getKey(),(String)pivot.getValue());
+	    			//}
+	    			//fields += ", " + pivot.getKey() + " = " + (String)pivot.getValue() ;
+	    		    
+	    				
+	    	}
+        
     		//ESTO MANEJA LA CABECERA DEL TIPO DE DATO
         	if (this.getType().isEnumeration()) {
         		//typeName = "models.CharField(max_length = 100, choices = " + type.getName().toUpperCase() + "_CHOICES)";
-        		headfield = "models.CharField(choices = " + this.getType().getName().toUpperCase();
-        		
+        		headfield = "models.CharField(";
+        		field += "choices = " + this.getType().getName().toUpperCase() + "_CHOICES,";
+        		// validaciones finales :D
+    			if (!field.contains("max_length")) {
+        			field += "max_length = 50,"; // TODO: sacar del enumeration facade (o choice facade) la longitud
+        		}
         	}
     		if (this.getType().getName().equals("String")){
     			//return "models.CharField(max_length = 500)";
     			headfield = "models.CharField(";
-        		
+        		// validaciones finales :D
+    			if (!field.contains("max_length")) {
+        			field += "max_length = 100,";
+        		}
     		}
     		if (this.getType().getName().equals("Integer")){
     			headfield = "models.IntegerField(";
@@ -99,22 +118,11 @@ public class DjDataTypeImpl
     		if (this.getType().getName().equals("DateTime")){
     			headfield = "models.DateTimeField(";
     		}
+
+	    	if(field.length()>2){
+	    		field=field.substring(0,field.length()-1);
+	    	}
     	
-    		//AQUI SE RECOORRRE LOS PARAMETROS Y SE LOS PARSEA CON PYPARSER sI ES djfield SE PARSEA LA CABECERA 
-    	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
-        		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
-        		if(pivot.getKey().equals("djfield")){
-    				headfield = pyParser(pivot.getKey(),(String)pivot.getValue());
-    			}else{
-    				field += pyParser(pivot.getKey(),(String)pivot.getValue());
-    			}
-    			//fields += ", " + pivot.getKey() + " = " + (String)pivot.getValue() ;
-    		    
-    				
-    	}
-    	if(field.length()>2){
-    		field=field.substring(0,field.length()-1);
-    	}
     	return headfield + field + ")";
     	//System.out.println(this.parameters);
         //System.out.println("##############################");
@@ -140,7 +148,9 @@ public class DjDataTypeImpl
     //FUNCION PARA PARSEAR PARAMETROS
     private String pyParser(String key, String value) {
         if (key.equals("djfield")){
-        	return "models.PasswordField(";
+        	return "";
+        	//return "widget=forms.PasswordInput(render_value=False),";
+        	//return "models.PasswordField(";
         }
         if (key.equals("unique")){
         	return " unique = " + trueParser(value)+ ",";
@@ -153,8 +163,8 @@ public class DjDataTypeImpl
         }
         
         
-        return null;
-    	}
+        return "";
+   	}
     	/**
          * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#operToPy()
          */
