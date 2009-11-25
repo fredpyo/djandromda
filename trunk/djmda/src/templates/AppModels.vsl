@@ -50,5 +50,12 @@ class $model.getName()(models.Model):
 
 #end
 
+    class Meta:
+        unique_together = (
+#foreach( $unique_group in $model.uniqueGroups())
+            ($unique_group),
+#end
+        )
+
 
 #end  ## end modelos
