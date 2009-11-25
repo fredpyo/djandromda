@@ -112,9 +112,9 @@ public class DjDataTypeImpl
     		    
     				
     	}
-    	/*****************DESCOMENTA ESTA LINEA Y TE TIRA ERROR DE ENUMERATION************************/
-    	//field=field.substring(0,field.length()-2);
-    	/********************************ES PARA ELIMINAR LA ULTIMA COMA*********************************/
+    	if(field.length()>2){
+    		field=field.substring(0,field.length()-1);
+    	}
     	return headfield + field + ")";
     	//System.out.println(this.parameters);
         //System.out.println("##############################");
