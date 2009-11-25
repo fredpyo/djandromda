@@ -66,13 +66,14 @@ public class ModelFacadeLogicImpl
 			//PyAttr pyAttribute = new PyAttr(attribute.getName(), new DjDataTypeImpl(attribute));
 			PyAttr pyAttribute = new PyAttrImpl(attribute);
 			
-			String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType(),pyAttribute);
+			//String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType(),pyAttribute);
+			String variableName = pyAttribute.toDjango();
 			varArr.add(variableName);
     	}
         return varArr;
     }
 
-   
+ /*  
 	
     private String pyDataType(ClassifierFacade type,PyAttr Djfields) {
 		// TODO Auto-generated method stub
@@ -133,9 +134,11 @@ private String pyParser(String key, String value) {
     
     return null;
 	}
+	*/
 	/**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#operToPy()
      */
+    /*
 private String trueParser(String bool) {
 	if(bool.equals("true")){
 		return " True ";
@@ -144,6 +147,7 @@ private String trueParser(String bool) {
 		return " False ";
 	}
 }
+*/
     protected java.util.Collection handleOperToPy()
     {
         // TODO: put your implementation here.

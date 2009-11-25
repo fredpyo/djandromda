@@ -71,7 +71,54 @@ public class DjDataTypeImpl
      */
     public java.lang.String toDjango()
     {
-        // @todo implement public java.lang.String toDjango()
+        String field="";
+        
+        String headfield="";
+    
+    		//ESTO MANEJA LA CABECERA DEL TIPO DE DATO
+        	if (this.getType().isEnumeration()) {
+        		//typeName = "models.CharField(max_length = 100, choices = " + type.getName().toUpperCase() + "_CHOICES)";
+        		headfield = "models.CharField(choices = " + this.getType().getName().toUpperCase();
+        		
+        	}
+    		if (this.getType().getName().equals("String")){
+    			//return "models.CharField(max_length = 500)";
+    			headfield = "models.CharField(";
+        		
+    		}
+    		if (this.getType().getName().equals("Integer")){
+    			headfield = "models.IntegerField(";
+    		}
+    		if (this.getType().getName().equals("Boolean")){
+    			headfield = "models.BooleanField(";
+    		}
+    		
+    		if (this.getType().getName().equals("Date")){
+    			headfield = "models.DateField(";
+    		}
+    		if (this.getType().getName().equals("DateTime")){
+    			headfield = "models.DateTimeField(";
+    		}
+    	
+    		//AQUI SE RECOORRRE LOS PARAMETROS Y SE LOS PARSEA CON PYPARSER sI ES djfield SE PARSEA LA CABECERA 
+    	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
+        		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
+        		if(pivot.getKey().equals("djfield")){
+    				headfield = pyParser(pivot.getKey(),(String)pivot.getValue());
+    			}else{
+    				field += pyParser(pivot.getKey(),(String)pivot.getValue());
+    			}
+    			//fields += ", " + pivot.getKey() + " = " + (String)pivot.getValue() ;
+    		    
+    				
+    	}
+    	/*****************DESCOMENTA ESTA LINEA Y TE TIRA ERROR DE ENUMERATION************************/
+    	//field=field.substring(0,field.length()-2);
+    	/********************************ES PARA ELIMINAR LA ULTIMA COMA*********************************/
+    	return headfield + field + ")";
+    	//System.out.println(this.parameters);
+        //System.out.println("##############################");
+    	// @todo implement public java.lang.String toDjango()
     	// TODO: Como dije en PyAttrImpl.java...
     	// este debería de retornar un string tipo models.XxxxField(xxx = xx, xx = xx)
     	// en primera instancia el XxxxField va a estar determinado por el atributo this.type
@@ -87,9 +134,40 @@ public class DjDataTypeImpl
     	// la clase DjDataTypeParameter, que tiene dos atributos key y value, que coincidentemente se refieren al nombre del tag y su valor.
     	// Ojo que el valor está como un tipo de dato Object, y tenés que castear al tipo adecuado... creo... ya no me acuerdo... jajaja
     	// bueno... eso es todo... chau
-        throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.DjDataType.toDjango() Not implemented!");
+        //throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.DjDataType.toDjango() Not implemented!");
+    	//return "blaa";
     }
-
+    //FUNCION PARA PARSEAR PARAMETROS
+    private String pyParser(String key, String value) {
+        if (key.equals("djfield")){
+        	return "models.PasswordField(";
+        }
+        if (key.equals("unique")){
+        	return " unique = " + trueParser(value)+ ",";
+        }
+        if (key.equals("blank")){
+        	return " blank = " + trueParser(value)+",";
+        }
+        if (key.equals("str_length")){
+        	return " max_length = " + value+",";
+        }
+        
+        
+        return null;
+    	}
+    	/**
+         * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#operToPy()
+         */
+    
+    //NO TENIA GANAS DE ESCRIBR TANTAS VECES TRUE FALSE
+    private String trueParser(String bool) {
+    	if(bool.equals("true")){
+    		return " True ";
+    	}
+    	else{
+    		return " False ";
+    	}
+    }
     /**
      * @see org.andromda.cartridges.djmda.psm.DjDataType#toPgSql()
      */

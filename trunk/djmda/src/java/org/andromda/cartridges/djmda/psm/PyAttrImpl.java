@@ -59,7 +59,10 @@ public class PyAttrImpl
     	// con lo que dataType.toDjango() retornará algo como "models.CharField(max_length = 220, unique = True)
     	// formando el string que nos interesa
     	// el resto de la documentación la pongo en @see:DjDataTypeImpl.java (le podés hacer Ctrl + Click y te va a llevar)
-        throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.PyAttr.toDjango() Not implemented!");
+       // throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.PyAttr.toDjango() Not implemented!");
+        return this.name + " = " + this.getDataType().toDjango();
+    	//return "blaa";
+    	
     }
 
     /**
