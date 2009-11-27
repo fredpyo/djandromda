@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.andromda.cartridges.djmda.psm.*;
+import org.andromda.cartridges.djmda.psm.PGSQLColumn;
+
 //import org.andromda.cartridges.djmda.psm.DjDataTypeParameter;
 import org.andromda.cartridges.djmda.psm.PyAttrImpl;
 import org.andromda.cartridges.djmda.psm.PyFunc;
@@ -143,10 +145,18 @@ public class ModelFacadeLogicImpl
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#toPGSQL()
      */
-    protected org.andromda.cartridges.djmda.psm.PGSQLTable handleToPGSQL()
+    protected java.util.Collection handleToPGSQL()
     {
         // TODO: put your implementation here.
-        return null;
+    	Collection attrArr = this.getAttributes();
+    	ArrayList varArr = new ArrayList();
+    	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
+    		AttributeFacade attribute = (AttributeFacade) iterator.next();
+    		PyAttr pyAttribute = new PyAttrImpl(attribute);
+    		String variableName = pyAttribute.toPgSql();
+    		varArr.add(variableName);
+    	}
+        return varArr;
     }
     
     /**

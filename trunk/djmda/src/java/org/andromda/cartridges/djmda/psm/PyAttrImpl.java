@@ -71,7 +71,8 @@ public class PyAttrImpl
     public java.lang.String toPgSql()
     {
         // @todo implement public java.lang.String toPgSql()
-        throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.PyAttr.toPgSql() Not implemented!");
+    	return "\""+ this.name + "\" " + this.getDataType().toPgSql();
+        //throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.PyAttr.toPgSql() Not implemented!");
     }
 
 }
