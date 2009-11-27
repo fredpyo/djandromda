@@ -183,8 +183,73 @@ public class DjDataTypeImpl
      */
     public java.lang.String toPgSql()
     {
-        // @todo implement public java.lang.String toPgSql()
-        throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.DjDataType.toPgSql() Not implemented!");
+    	String headfield ="";
+    	String field ="";	
+    	String notNull ="NOT NULL";	
+    	
+    	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
+    		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
+    		if (pivot.getKey().equals("str_length")){
+    			headfield = sqlType()+"("+ pivot.getValue() +")";
+            }
+    		if (pivot.getKey().equals("unique")){
+    			if(pivot.getValue().equals("false")){
+    				notNull = "";
+            
+    			}
+    		}
+    		field += sqlParser(pivot.getKey(),(String)pivot.getValue());	
+    	}
+    	return headfield+field+notNull+",";
     }
-
+    private String sqlParser(String key, String value) {
+    	System.out.println(key+"###################"+value);
+    	if (key.equals("djfield")){
+        	return "";
+        }
+        
+        if (key.equals("blank")){
+        	return "";
+        }
+        if (key.equals("null")){
+        
+        	
+        	if(value.equals("true")){
+        		return " NOT NULL ";
+        		}
+        	}
+    	return "";
+    }
+    
+    
+    private String sqlType() {
+    	if (this.getType().isEnumeration()) {
+    		return "varchar(100)";
+    		
+    	}
+    	if (this.getType().getName().equals("String")){
+			return "varchar";
+		
+		}
+		if (this.getType().getName().equals("Integer")){
+			return "intenger";
+			
+		}
+		if (this.getType().getName().equals("Boolean")){
+			return "bool";
+			
+		}
+		
+		if (this.getType().getName().equals("Date")){
+			return "date";
+			
+		}
+		if (this.getType().getName().equals("DateTime")){
+			return "timestamp";
+			
+		}
+		return "";
+ 
+    }
 }
+
