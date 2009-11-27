@@ -98,6 +98,19 @@
         </modelElements>
     </template>
 
+		<template
+        path="templates/Pgsql.vsl"
+        outputPattern="${appName}/pgsql.sql"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="app">  
+<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+
 	<template
         path="templates/AppAdmin.vsl"
         outputPattern="${appName}/admin.py"
@@ -110,6 +123,7 @@
             </modelElement>
         </modelElements>
     </template>
+
 	
 </cartridge>
 

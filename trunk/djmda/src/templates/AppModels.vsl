@@ -18,6 +18,9 @@ $choice.getName().toUpperCase()_CHOICES = (
 )
 #end
 
+
+
+
 #foreach($model in $models) ## begin modelos
     ## SE TRANSFORMAN LAS OPERACIONES A UN OBJETO PHPFunction
     #set( $functions = $model.operToPy() ) 
@@ -26,7 +29,11 @@ $choice.getName().toUpperCase()_CHOICES = (
     ## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
     #set( $relationships = $model.assocToPy() ) 
     #set( $imports = $model.importToPy() ) 
+	#set( $sqls = $model.toPGSQL() )
 
+
+	
+	
 class $model.getName()(models.Model):
     '''
     doc de la clase
@@ -59,3 +66,6 @@ class $model.getName()(models.Model):
 
 
 #end  ## end modelos
+
+
+

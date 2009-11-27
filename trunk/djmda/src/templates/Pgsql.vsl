@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+#set( $appName = $app.getName().toLowerCase())
+
+
+#set( $models = $app.getModels() )
+
+
+
+
+
+
+
+
+#foreach($model in $models) ## begin modelos
+   
+	#set( $sqls = $model.toPGSQL() )
+
+#foreach($sql in $sqls)
+	
+$sql	
+#end
+#end
+
+
+
+
+
+
+
