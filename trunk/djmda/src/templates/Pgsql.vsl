@@ -1,26 +1,36 @@
 # -*- coding: utf-8 -*-
 #set( $appName = $app.getName().toLowerCase())
-
-
+#set( $_ = "_" )
+#set( $_id = "_id" )
 #set( $models = $app.getModels() )
-
-
-
-
-
-
-
-
+BEGIN;
 #foreach($model in $models) ## begin modelos
-   
-	#set( $sqls = $model.toPGSQL() )
+#set( $keys = $model.fkPGSQL() )
+#set( $sqls = $model.toPGSQL() )
+
+CREATE TABLE "$appName$_$model.getName()" (
 
 #foreach($sql in $sqls)
-	
-$sql	
+	$sql	
+#end
+#foreach($key in $keys)
+	"$key.name$_id" integer NOT NULL 
+	#if($key.name == $key.table.toLowerCase())
+	                                 ,
+	#else
+	                                 REFERENCES "$appName$_$key.table.toLowerCase()" ("id") DEFERRABLE INITIALLY DEFERRED,
+	#end
+#end
+#foreach( $unique_group in $model.uniqueGroups())
+	UNIQUE($unique_group),
+#end
+	"id" serial NOT NULL PRIMARY KEY        
+);
+#foreach($key in $keys)
+CREATE INDEX "$appName$_$model.getName()$_$key.name$_id" ON "$appName$_$model.getName()" ("$key.name$_id");
 #end
 #end
-
+COMMIT;
 
 
 

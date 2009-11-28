@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.andromda.cartridges.djmda.psm.*;
 import org.andromda.cartridges.djmda.psm.PGSQLColumn;
-
+import org.andromda.cartridges.djmda.psm.PGSQLFK;
 //import org.andromda.cartridges.djmda.psm.DjDataTypeParameter;
 import org.andromda.cartridges.djmda.psm.PyAttrImpl;
 import org.andromda.cartridges.djmda.psm.PyFunc;
@@ -52,6 +52,26 @@ public class ModelFacadeLogicImpl
     			ClassifierFacade classifier = assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
         		String relString = assoc.getName() + " = models.ForeignKey(" + classifier.getName()+ ")";
         		relArr.add(relString);
+    		}
+    	}
+        return relArr;
+    }
+
+    
+    protected java.util.Collection handleFkPGSQL()
+    {
+    	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
+    	ArrayList relArr = new ArrayList();
+    	//Collection assocArr2 = this.getAssociatedClasses();
+
+    	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
+    		AssociationEndFacade assoc = (AssociationEndFacade) iterator.next();
+    		assoc = assoc.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
+    		if (assoc.isNavigable()) {
+    			ClassifierFacade classifier = assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
+        		//String relString = assoc.getName() + " = models.ForeignKey(" + classifier.getName()+ ")";
+    			PGSQLFK relString = new PGSQLFK(classifier.getName(),assoc.getName());
+    			relArr.add(relString);
     		}
     	}
         return relArr;

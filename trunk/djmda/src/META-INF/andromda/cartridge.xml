@@ -100,7 +100,7 @@
 
 		<template
         path="templates/Pgsql.vsl"
-        outputPattern="${appName}/pgsql.sql"
+        outputPattern="${appName}/${appName}.sql"
         outlet="deploymentreport"
 	overwrite="true"
 		>

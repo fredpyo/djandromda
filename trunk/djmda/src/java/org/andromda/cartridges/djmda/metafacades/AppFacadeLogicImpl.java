@@ -110,10 +110,7 @@ public class AppFacadeLogicImpl
     	}
         return imports;
     }
-    protected java.util.Collection handleManagePGSQL()
-    {
-    return null;	
-    }
+ 
     protected String handleGetProjectName() {
     	return this.getPackage().getName();
     }
