@@ -186,11 +186,12 @@ public class DjDataTypeImpl
     	String headfield ="";
     	String field ="";	
     	String notNull ="NOT NULL";	
-    	
+    	headfield = sqlType("100")+" ";
     	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
     		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
+    		
     		if (pivot.getKey().equals("str_length")){
-    			headfield = sqlType()+"("+ pivot.getValue() +")";
+    			headfield = sqlType((String)pivot.getValue());
             }
     		if (pivot.getKey().equals("unique")){
     			if(pivot.getValue().equals("false")){
@@ -203,7 +204,7 @@ public class DjDataTypeImpl
     	return headfield+field+notNull+",";
     }
     private String sqlParser(String key, String value) {
-    	System.out.println(key+"###################"+value);
+    	
     	if (key.equals("djfield")){
         	return "";
         }
@@ -222,13 +223,13 @@ public class DjDataTypeImpl
     }
     
     
-    private String sqlType() {
+    private String sqlType(String value) {
     	if (this.getType().isEnumeration()) {
-    		return "varchar(100)";
+    		return "varchar(50)";
     		
     	}
     	if (this.getType().getName().equals("String")){
-			return "varchar";
+			return "varchar"+"("+value+") ";
 		
 		}
 		if (this.getType().getName().equals("Integer")){
@@ -245,7 +246,7 @@ public class DjDataTypeImpl
 			
 		}
 		if (this.getType().getName().equals("DateTime")){
-			return "timestamp";
+			return "timestamp with time zone";
 			
 		}
 		return "";
