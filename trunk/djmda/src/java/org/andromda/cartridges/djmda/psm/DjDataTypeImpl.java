@@ -233,7 +233,7 @@ public class DjDataTypeImpl
 		
 		}
 		if (this.getType().getName().equals("Integer")){
-			return "intenger";
+			return "integer";
 			
 		}
 		if (this.getType().getName().equals("Boolean")){
