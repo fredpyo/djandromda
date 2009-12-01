@@ -116,9 +116,9 @@ public class ModelFacadeLogicImpl
 						try {
 							String group = (String) groups.next();
 							if (grupos.get(group) != null) {
-								grupos.put(group, grupos.get(group) + ", " + "'" + attribute.getName() + "'");
+								grupos.put(group, grupos.get(group) + ", " + "\"" + attribute.getName() + "\"");
 							} else {
-								grupos.put(group, "'" + attribute.getName() + "'");
+								grupos.put(group, "\"" + attribute.getName() + "\"");
 							}
 						} catch (Exception e ) {
 							System.out.println("[djMDA] No se pudo leer un valor del tag " + tag.getName() + " en el atributo " + attribute.getName() + "en el modelo " + this.getName());
