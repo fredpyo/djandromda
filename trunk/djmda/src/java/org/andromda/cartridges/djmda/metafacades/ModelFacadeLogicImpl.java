@@ -10,13 +10,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.andromda.cartridges.djmda.psm.*;
-import org.andromda.cartridges.djmda.psm.PGSQLColumn;
-import org.andromda.cartridges.djmda.psm.PGSQLFK;
 //import org.andromda.cartridges.djmda.psm.DjDataTypeParameter;
 import org.andromda.cartridges.djmda.psm.PyAttrImpl;
 import org.andromda.cartridges.djmda.psm.PyFunc;
 import org.andromda.metafacades.uml.AssociationClassFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
+import org.andromda.metafacades.uml.AssociationFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -46,11 +45,29 @@ public class ModelFacadeLogicImpl
     	//Collection assocArr2 = this.getAssociatedClasses();
 
     	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
-    		AssociationEndFacade assoc = (AssociationEndFacade) iterator.next();
-    		assoc = assoc.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
-    		if (assoc.isNavigable()) {
-    			ClassifierFacade classifier = assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
-        		String relString = assoc.getName() + " = models.ForeignKey(" + classifier.getName()+ ")";
+    		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
+    		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
+    		String assocFieldString = "";
+    		
+    		System.out.println();
+    		System.out.println(assocStart.getType().getName());
+    		System.out.println("isMany:" + assocStart.isMany());
+    		System.out.println("isMany2One:" + assocStart.isMany2One());
+    		System.out.println("isMany2Many:" + assocStart.isMany2Many());
+    		System.out.println("isOne2One:" + assocStart.isOne2One());
+    		System.out.println("isOne2Many:" + assocStart.isOne2Many());
+    		
+    		// determinar el tipo de asociación dependiendo de si es un one2one, many2one, many2many
+    		if (assocStart.isOne2One() && assocEnd.isNavigable()) {
+    			assocFieldString = " = models.ForeignKey(";
+    		} else if (assocStart.isMany2One()) {
+    			assocFieldString = " = models.ForeignKey(";
+    		} else if (assocStart.isMany2Many() && assocEnd.isNavigable()){
+    			assocFieldString = " = models.ManyToManyField(";
+    		}
+    		
+    		if (!assocFieldString.equals("")) {
+        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + assocEnd.getType().getName()+ ")";
         		relArr.add(relString);
     		}
     	}
@@ -126,7 +143,7 @@ public class ModelFacadeLogicImpl
 					}
 				}
 			}
-			System.out.println(this.getName() + "::" + grupos);
+			//System.out.println(this.getName() + "::" + grupos);
     	}
 		grupos.remove("");
 		
@@ -134,7 +151,7 @@ public class ModelFacadeLogicImpl
 		for (Iterator i = set.iterator(); i.hasNext();) {
 			groupsArr.add(((Map.Entry)i.next()).getValue());
 		}
-		System.out.println("........." + groupsArr);
+		//System.out.println("........." + groupsArr);
         return groupsArr;
     }
     
