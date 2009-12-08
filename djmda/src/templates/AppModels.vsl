@@ -12,28 +12,24 @@ $import
 # choices go here
 #foreach ($choice in $choices)
 $choice.getName().toUpperCase()_CHOICES = (
-#foreach ($choice_element in $choice.getChoices())
+	#foreach ($choice_element in $choice.getChoices())
     $choice_element,
-#end
+	#end
 )
 #end
 
 
-
-
 #foreach($model in $models) ## begin modelos
-    ## SE TRANSFORMAN LAS OPERACIONES A UN OBJETO PHPFunction
-    #set( $functions = $model.operToPy() ) 
-    ## SE TRANSFORMAN LOS ATRIBUTOS A NOMBRES DE VARIABLES PHP
-    #set( $variables = $model.attrToPy() ) 
-    ## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
-    #set( $relationships = $model.assocToPy() ) 
-    #set( $imports = $model.importToPy() ) 
-	#set( $sqls = $model.toPGSQL() )
+## SE TRANSFORMAN LAS OPERACIONES A UN OBJETO PHPFunction
+#set( $functions = $model.operToPy() ) 
+## SE TRANSFORMAN LOS ATRIBUTOS A NOMBRES DE VARIABLES PHP
+#set( $variables = $model.attrToPy() ) 
+## SE TRANSFORMAN LAS ASSOCIACIONES A FKs a OTRAS CLASES
+#set( $relationships = $model.assocToPy() ) 
+#set( $imports = $model.importToPy() ) 
+#set( $sqls = $model.toPGSQL() )
 
 
-	
-	
 class $model.getName()(models.Model):
     '''
     doc de la clase
@@ -45,9 +41,9 @@ class $model.getName()(models.Model):
 #foreach($variable in $variables)
     $variable
 #end
+
 ## SE MUESTRAN LAS FUNCIONES DE LA CLASE
 #foreach( $function in $functions)
-    
     def $function.getName()(self$function.getParameters()):
         '''
         doc de la funcion
@@ -56,16 +52,10 @@ class $model.getName()(models.Model):
         pass
 
 #end
-
     class Meta:
         unique_together = (
 #foreach( $unique_group in $model.uniqueGroups())
             ($unique_group),
 #end
         )
-
-
 #end  ## end modelos
-
-
-
