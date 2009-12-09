@@ -44,11 +44,14 @@ public class ModelFacadeLogicImpl
     	ArrayList relArr = new ArrayList();
     	//Collection assocArr2 = this.getAssociatedClasses();
 
+    	System.out.println("GEN " + this.getGeneralization());
+    	
     	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
     		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
     		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
     		String assocFieldString = "";
     		
+    		/*
     		System.out.println();
     		System.out.println(assocStart.getType().getName());
     		System.out.println("isMany:" + assocStart.isMany());
@@ -56,6 +59,7 @@ public class ModelFacadeLogicImpl
     		System.out.println("isMany2Many:" + assocStart.isMany2Many());
     		System.out.println("isOne2One:" + assocStart.isOne2One());
     		System.out.println("isOne2Many:" + assocStart.isOne2Many());
+    		*/
     		
     		// determinar el tipo de asociación dependiendo de si es un one2one, many2one, many2many
     		if (assocStart.isOne2One() && assocEnd.isNavigable()) {
@@ -196,6 +200,17 @@ public class ModelFacadeLogicImpl
         return varArr;
     }
     
+    protected String handleGetGeneralizationModel() {
+    	String gen;
+    	
+    	if (this.getGeneralization() != null) {
+    		gen = this.getGeneralization().getName();
+    	} else {
+    		gen = "models.Model";
+    	}
+    	return gen;
+    }
+    
     /**
      * @param argsNameArr
      * @return
@@ -215,5 +230,6 @@ public class ModelFacadeLogicImpl
     	
     	return pyArgNames;
     }
+    
 
 }

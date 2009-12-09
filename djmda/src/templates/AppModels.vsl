@@ -30,7 +30,7 @@ $choice.getName().toUpperCase()_CHOICES = (
 #set( $sqls = $model.toPGSQL() )
 
 
-class $model.getName()(models.Model):
+class $model.getName()($model.getGeneralizationModel()):
     '''
     doc de la clase
     '''
