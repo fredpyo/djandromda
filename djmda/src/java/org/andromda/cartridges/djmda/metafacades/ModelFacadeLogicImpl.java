@@ -44,8 +44,6 @@ public class ModelFacadeLogicImpl
     	ArrayList relArr = new ArrayList();
     	//Collection assocArr2 = this.getAssociatedClasses();
 
-    	System.out.println("GEN " + this.getGeneralization());
-    	
     	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
     		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
     		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
@@ -109,11 +107,14 @@ public class ModelFacadeLogicImpl
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
 			AttributeFacade attribute = (AttributeFacade) iterator.next();
 			//PyAttr pyAttribute = new PyAttr(attribute.getName(), new DjDataTypeImpl(attribute));
-			PyAttr pyAttribute = new PyAttrImpl(attribute);
-			
-			//String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType(),pyAttribute);
-			String variableName = pyAttribute.toDjango();
-			varArr.add(variableName);
+			try {
+				PyAttr pyAttribute = new PyAttrImpl(attribute);
+				//String variableName =  attribute.getName() + " = " + pyDataType(attribute.getType(),pyAttribute);
+				String variableName = pyAttribute.toDjango();
+				varArr.add(variableName);
+			} catch (Exception e) {
+				System.out.println("[djMDA :: WARNING] El atributo ´" + attribute.getName() + "´ en la clase " + this.getPackageName() + "." + this.getName() + " fue ignorado por un error con su tipo de dato. ");
+			}
     	}
         return varArr;
     }
@@ -193,9 +194,13 @@ public class ModelFacadeLogicImpl
     	ArrayList varArr = new ArrayList();
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
     		AttributeFacade attribute = (AttributeFacade) iterator.next();
-    		PyAttr pyAttribute = new PyAttrImpl(attribute);
-    		String variableName = pyAttribute.toPgSql();
-    		varArr.add(variableName);
+    		try {
+	    		PyAttr pyAttribute = new PyAttrImpl(attribute);
+	    		String variableName = pyAttribute.toPgSql();
+	    		varArr.add(variableName);
+    		} catch (Exception e ) {
+    			
+    		}
     	}
         return varArr;
     }
