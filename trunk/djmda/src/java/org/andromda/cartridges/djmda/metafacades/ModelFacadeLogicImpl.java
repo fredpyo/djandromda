@@ -48,6 +48,15 @@ public class ModelFacadeLogicImpl
     		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
     		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
     		String assocFieldString = "";
+    		String associationTarget = "";
+    		String nullable = "";
+    		
+    		// detectar el target de la asociación, ya sea otro modelo o 'self'
+    		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
+    			associationTarget = "'self'";
+    		else
+    			associationTarget = assocEnd.getType().getName();
+    		//System.out.println(this.getName() +"+"+assocEnd.getType().getName()+"="+ associationTarget);
     		
     		/*
     		System.out.println();
@@ -68,8 +77,13 @@ public class ModelFacadeLogicImpl
     			assocFieldString = " = models.ManyToManyField(";
     		}
     		
+    		// manejar campos nullable 
+    		if (assocEnd.getLower() == 0)
+    			nullable = ", null=True, blank=True";
+    		
+    		// formar el string final
     		if (!assocFieldString.equals("")) {
-        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + assocEnd.getType().getName()+ ")";
+        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + associationTarget + nullable + ")";
         		relArr.add(relString);
     		}
     	}
