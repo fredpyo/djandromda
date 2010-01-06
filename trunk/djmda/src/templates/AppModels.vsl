@@ -32,7 +32,7 @@ $choice.getName().toUpperCase()_CHOICES = (
 
 class $model.getName()($model.getGeneralizationModel()):
     '''
-    doc de la clase
+$model.getDocumentation("    ", 80, false)
     '''
 ## SE MUESTRAN LAS VARIABLES DE LA CLASE
 #foreach($relation in $relationships)
