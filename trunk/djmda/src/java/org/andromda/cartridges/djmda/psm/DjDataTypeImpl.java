@@ -64,6 +64,8 @@ public class DjDataTypeImpl
     			this.parameters.add(new DjDataTypeParameter(tag.getName(), Boolean.TRUE));
     		}
     	}
+    	// HACK: meter el default value como un tagged value
+    	this.parameters.add(new DjDataTypeParameter("_default", sourceAttribute.getDefaultValue()));
     }
     
     /**
@@ -105,6 +107,8 @@ public class DjDataTypeImpl
         			field += "max_length = 100,";
         		}
     		}
+    		// valor por default
+    		
     		if (this.getType().getName().equals("Integer")){
     			headfield = "models.IntegerField(";
     		}
@@ -160,6 +164,21 @@ public class DjDataTypeImpl
         }
         if (key.equals("str_length")){
         	return " max_length = " + value+",";
+        }
+        if (key.equals("auto_now")) {
+        	return " auto_now = " + trueParser(value) + ",";
+        }
+        if (key.equals("auto_now_add")) {
+        	return " auto_now_add = " + trueParser(value) + ",";
+        }
+        if (key.equals("_default")) {
+        	if (value != null) {
+        		// HACK: otro terrible terrible hack
+        		if (trueParser(value) != null)
+        			return " default = " + trueParser(value) + ",";
+        		else
+        			return " default = " + value + ",";
+        	}
         }
         
         

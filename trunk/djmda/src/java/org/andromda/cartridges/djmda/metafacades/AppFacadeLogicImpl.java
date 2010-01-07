@@ -3,7 +3,9 @@ package org.andromda.cartridges.djmda.metafacades;
 import java.text.ChoiceFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.andromda.cartridges.djmda.metafacades.ModelFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
@@ -87,7 +89,8 @@ public class AppFacadeLogicImpl
     {
         // agarrar las clases dentro del paquete
     	Collection classes = this.getClasses();
-    	ArrayList imports = new ArrayList();
+    	//ArrayList imports = new ArrayList();
+    	Set imports = new HashSet(); // para evitar entradas repetidas
     	
     	// iterar
     	for (Iterator iterator = classes.iterator(); iterator.hasNext();) {
