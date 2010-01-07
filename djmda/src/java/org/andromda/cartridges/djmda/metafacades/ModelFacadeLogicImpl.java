@@ -138,39 +138,89 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleUniqueGroups()
     {
-    	HashMap grupos = new HashMap(); // diccionario de grupos
+    	HashMap grupos = new HashMap(); // diccionario de grupos, cada elemento es un string de nombres de columnas en el grupo
     	Collection attrArr = this.getAttributes(); //se obtienen todos los atributos de la clase
     	ArrayList groupsArr = new ArrayList();
 
+    	/**
+    	 * Atributos
+    	 */
+    	// recorrer los atributos
     	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
 			AttributeFacade attribute = (AttributeFacade) iterator.next();
-			
+			// recorrer los tags de cada atributo
 			for (Iterator tags = attribute.getTaggedValues().iterator(); tags.hasNext();) {
 				TaggedValueFacade tag = (TaggedValueFacade) tags.next();
+				// buscar el tag "group"
 				if (tag.getName().equals("group")) {
+					// leer los valores dentro del tag "group"
 					for (Iterator groups = tag.getValues().iterator(); groups.hasNext();) {
 						try {
 							String group = (String) groups.next();
 							if (grupos.get(group) != null) {
-								grupos.put(group, grupos.get(group) + ", " + "\"" + attribute.getName() + "\"");
+								grupos.put(group, grupos.get(group) + ", " + '"' + attribute.getName() + '"');
 							} else {
-								grupos.put(group, "\"" + attribute.getName() + "\"");
+								grupos.put(group, '"' + attribute.getName() + '"');
 							}
 						} catch (Exception e ) {
-							System.out.println("[djMDA] No se pudo leer un valor del tag " + tag.getName() + " en el atributo " + attribute.getName() + "en el modelo " + this.getName());
+							System.out.println("[djMDA :: WARNING] No se pudo leer un valor del tag '" + tag.getName() + "' en el atributo '" + attribute.getName() + "' en el modelo '" + this.getName() + "'");
 						}
 					}
 				}
 			}
 			//System.out.println(this.getName() + "::" + grupos);
     	}
+    	
+    	/**
+    	 * Asociaciones
+    	 */
+    	// obtener los extremos de las asociaciones del lado de esta clase
+    	attrArr = this.getAssociationEnds();
+    	// iterar sobre los association ends
+    	for (Iterator iterator = attrArr.iterator(); iterator.hasNext();) {
+    		// obtener el extremo opuesta al a clase
+    		AssociationEndFacade assocEnd = ((AssociationEndFacade)iterator.next()).getOtherEnd();
+    		// detectar si es referencia a otra tabla o a la misma... otro modelo o 'self'
+    		String associationTarget = null;
+    		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
+    			associationTarget = "'self'";
+    		else
+    			associationTarget = assocEnd.getName().toLowerCase();
+    		// recorrer los tags del assocEnd
+    		for (Iterator tags = assocEnd.getTaggedValues().iterator(); tags.hasNext();) {
+				TaggedValueFacade tag = (TaggedValueFacade) tags.next();
+				// buscar el tag "group"
+				if (tag.getName().equals("group")) {
+					// leer los valores dentro del tag "group"
+					for (Iterator groups = tag.getValues().iterator(); groups.hasNext();) {
+						try {
+							String group = (String) groups.next();
+							if (grupos.get(group) != null) {
+								grupos.put(group, grupos.get(group) + ", " + '"' + associationTarget + '"');
+							} else {
+								grupos.put(group, '"' + associationTarget + '"');
+							}
+						} catch (Exception e ) {
+							System.out.println("[djMDA :: WARNING] No se pudo leer un valor del tag '" + tag.getName() + "' en el extremo de asociación '" + associationTarget + "' en el modelo '" + this.getName() + "'.");
+						}
+					}
+				}
+    		}
+    	}
+    	
+    	/**
+    	 * Limpieza y formateo final
+    	 */
+    	// quitar el grupo vacio
 		grupos.remove("");
 		
+		// convertir el grupo a una lista (quitar los keys, y dejar como una lista)
+		// {"1" : '"a", "b"', "2" : '"b", "c", "d"'} --> ['"a", "b"', '"b", "c", "d"'] 
 		Set set = grupos.entrySet();
 		for (Iterator i = set.iterator(); i.hasNext();) {
 			groupsArr.add(((Map.Entry)i.next()).getValue());
 		}
-		//System.out.println("........." + groupsArr);
+
         return groupsArr;
     }
     
