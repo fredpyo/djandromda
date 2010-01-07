@@ -49,13 +49,14 @@ public class ModelFacadeLogicImpl
     		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
     		String assocFieldString = "";
     		String associationTarget = "";
+    		String relatedName = ", related_name = '" + assocStart.getName().toLowerCase() + "'";
     		String nullable = "";
     		
     		// detectar el target de la asociación, ya sea otro modelo o 'self'
     		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
     			associationTarget = "'self'";
     		else
-    			associationTarget = assocEnd.getType().getName();
+    			associationTarget = "'"+ assocEnd.getType().getPackage().getName().toLowerCase() + "." + assocEnd.getType().getName()+"'";
     		//System.out.println(this.getName() +"+"+assocEnd.getType().getName()+"="+ associationTarget);
     		
     		/*
@@ -67,8 +68,10 @@ public class ModelFacadeLogicImpl
     		System.out.println("isOne2One:" + assocStart.isOne2One());
     		System.out.println("isOne2Many:" + assocStart.isOne2Many());
     		*/
-    		
-    		// determinar el tipo de asociación dependiendo de si es un one2one, many2one, many2many
+
+    		/**
+    		 * Determinar el tipo de asociación dependiendo de si es un one2one, many2one, many2many
+    		 */
     		if (assocStart.isOne2One() && assocEnd.isNavigable()) {
     			assocFieldString = " = models.ForeignKey(";
     		} else if (assocStart.isMany2One()) {
@@ -76,6 +79,9 @@ public class ModelFacadeLogicImpl
     		} else if (assocStart.isMany2Many() && assocEnd.isNavigable()){
     			assocFieldString = " = models.ManyToManyField(";
     		}
+    		/**
+    		 * Determinar el related field
+    		 */
     		
     		// manejar campos nullable 
     		if (assocEnd.getLower() == 0)
@@ -83,7 +89,7 @@ public class ModelFacadeLogicImpl
     		
     		// formar el string final
     		if (!assocFieldString.equals("")) {
-        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + associationTarget + nullable + ")";
+        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + associationTarget + nullable + relatedName + ")";
         		relArr.add(relString);
     		}
     	}

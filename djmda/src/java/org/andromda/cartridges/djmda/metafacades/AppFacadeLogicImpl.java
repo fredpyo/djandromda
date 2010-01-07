@@ -99,13 +99,13 @@ public class AppFacadeLogicImpl
     		Collection assocArr = model.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
 
     		for (Iterator assocIterator = assocArr.iterator(); assocIterator.hasNext();) {
-    			AssociationEndFacade assoc = (AssociationEndFacade) assocIterator.next();
-    			assoc = assoc.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
-        		if (assoc.isNavigable()) {
-        			if (assoc.getType().getStereotypeNames().contains("Model")) {
-	        			ModelFacade targetModel = (ModelFacade) assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
+    			AssociationEndFacade assocStart = (AssociationEndFacade) assocIterator.next();
+    			AssociationEndFacade assocEnd = assocStart.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
+        		if (assocEnd.isNavigable() && (assocStart.isOne2One() || assocStart.isMany2One() || assocStart.isMany2Many())) {
+        			if (assocEnd.getType().getStereotypeNames().contains("Model")) {
+	        			ModelFacade targetModel = (ModelFacade) assocEnd.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
 	        			if (!classes.contains(targetModel)) {
-	        				imports.add("from " + this.getProjectName() + "." + targetModel.getPackage().getName() + ".models import " + targetModel.getName());
+	        				imports.add("from " + this.getProjectName() + "." + targetModel.getPackage().getName().toLowerCase() + ".models import " + targetModel.getName());
 	        			}
         			}
         		}
@@ -116,5 +116,9 @@ public class AppFacadeLogicImpl
  
     protected String handleGetProjectName() {
     	return this.getPackage().getName();
+    }
+    
+    protected java.lang.Object handleGetProject() {
+    	return this.getPackage();
     }
 }
