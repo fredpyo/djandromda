@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#set( $projectPath = $app.getProject().getName().toLowerCase())
 #set( $appName = $app.getName().toLowerCase())
 from django.db import models
 #set( $imports = $app.importModelsToPy() )
