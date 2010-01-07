@@ -6,7 +6,7 @@
 	<!-- IMPORTANTE -->
 	<template
         path="templates/ProjectSettings.vsl"
-        outputPattern="settings.py"
+        outputPattern="${projectPath}/settings.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -19,7 +19,7 @@
 
 	<template
         path="templates/ProjectUrls.vsl"
-        outputPattern="urls.py"
+        outputPattern="${projectPath}/urls.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -32,7 +32,7 @@
 
 	<template
         path="templates/ProjectManage.vsl"
-        outputPattern="manage.py"
+        outputPattern="${projectPath}/manage.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -46,7 +46,7 @@
 
 	<template
         path="templates/ProjectInit.vsl"
-        outputPattern="__init__.py"
+        outputPattern="${projectPath}/__init__.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -61,7 +61,7 @@
 	<!-- IMPORTANTE -->
 	<template
         path="templates/AppModels.vsl"
-        outputPattern="${appName}/models.py"
+        outputPattern="${projectPath}/${appName}/models.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -74,7 +74,7 @@
 	
 	<template
         path="templates/AppViews.vsl"
-        outputPattern="${appName}/views.py"
+        outputPattern="${projectPath}/${appName}/views.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -87,7 +87,7 @@
 
 	<template
         path="templates/AppInit.vsl"
-        outputPattern="${appName}/__init__.py"
+        outputPattern="${projectPath}/${appName}/__init__.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -100,7 +100,7 @@
 
 		<template
         path="templates/Pgsql.vsl"
-        outputPattern="${appName}/${appName}.sql"
+        outputPattern="${projectPath}/${appName}/${appName}.sql"
         outlet="deploymentreport"
 	overwrite="true"
 		>
@@ -113,7 +113,7 @@
 
 	<template
         path="templates/AppAdmin.vsl"
-        outputPattern="${appName}/admin.py"
+        outputPattern="${projectPath}/${appName}/admin.py"
         outlet="deploymentreport"
 	overwrite="true"
 		>

@@ -1,4 +1,5 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+#set( $projectPath = $app.getProject().getName().toLowerCase())
 #set( $appName = $app.getName().toLowerCase())
 #set( $project_name = $app.getProjectName().toLowerCase())
 #set( $import_path = $project_name+"."+$appName+".models" )
