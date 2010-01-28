@@ -128,26 +128,6 @@ public class DjDataTypeImpl
 	    	}
     	
     	return headfield + field + ")";
-    	//System.out.println(this.parameters);
-        //System.out.println("##############################");
-    	// @todo implement public java.lang.String toDjango()
-    	// TODO: Como dije en PyAttrImpl.java...
-    	// este debería de retornar un string tipo models.XxxxField(xxx = xx, xx = xx)
-    	// en primera instancia el XxxxField va a estar determinado por el atributo this.type
-    	// (el cual puede ser String, Integer, o una clase de enumeración...
-    	// básicamente el getType() del atributo real es almacenado en this.type, por eso es un ClassifierFacade,
-    	// así que podés hacerle un isEnumeration() o getName(), etc, etc, etc...
-    	// En otras palabras, la lógia de la función pyDataType en ModelFacadeLogicImpl va a terminar acá
-    	// ...
-    	// Adicionalmente... si el valor etiquetado djfield está definido con algo como Password o lo que sea, entonces no se
-    	// debe retornar un CharField sino un PasswordField... o algo así
-    	// y luego se interpretan el resto de los valores etiquetados...
-    	// Ah todos estos están almacenados en la colección this.parameters, donde podes iterar entre las instancias de
-    	// la clase DjDataTypeParameter, que tiene dos atributos key y value, que coincidentemente se refieren al nombre del tag y su valor.
-    	// Ojo que el valor está como un tipo de dato Object, y tenés que castear al tipo adecuado... creo... ya no me acuerdo... jajaja
-    	// bueno... eso es todo... chau
-        //throw new java.lang.UnsupportedOperationException("org.andromda.cartridges.djmda.psm.DjDataType.toDjango() Not implemented!");
-    	//return "blaa";
     }
     //FUNCION PARA PARSEAR PARAMETROS
     private String pyParser(String key, String value) {
@@ -199,12 +179,14 @@ public class DjDataTypeImpl
     }
     /**
      * @see org.andromda.cartridges.djmda.psm.DjDataType#toPgSql()
+     * Conversión del datatype a una sentencia de columna (parte de CREATE TABLE...)
      */
     public java.lang.String toPgSql()
     {
-    	String headfield ="";
-    	String field ="";	
-    	String notNull ="NOT NULL";	
+    	String headfield = null;
+    	String field = "";	
+    	String nullable = " NOT NULL";
+    	String unique = "";
     	headfield = sqlType("100")+" ";
     	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
     		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
@@ -212,15 +194,18 @@ public class DjDataTypeImpl
     		if (pivot.getKey().equals("str_length")){
     			headfield = sqlType((String)pivot.getValue());
             }
+    		if (pivot.getKey().equals("nullable"))
+    			if (pivot.getValue().equals("true"))
+    				nullable = " NULL";
+    		
     		if (pivot.getKey().equals("unique")){
-    			if(pivot.getValue().equals("false")){
-    				notNull = "";
-            
+    			if(pivot.getValue().equals("true")){
+    				unique = " UNIQUE";
     			}
     		}
     		field += sqlParser(pivot.getKey(),(String)pivot.getValue());	
     	}
-    	return headfield+field+notNull+",";
+    	return headfield+field+nullable+unique+",";
     }
     private String sqlParser(String key, String value) {
     	
@@ -232,8 +217,6 @@ public class DjDataTypeImpl
         	return "";
         }
         if (key.equals("null")){
-        
-        	
         	if(value.equals("true")){
         		return " NOT NULL ";
         		}
