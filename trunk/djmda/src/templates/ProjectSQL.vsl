@@ -1,4 +1,8 @@
 BEGIN;
+
+-------------------------------------------------------
+-- TABLAS del proyecto generado                      --
+-------------------------------------------------------
 #set( $projectPath = $project.getName().toLowerCase())
 #set( $projectName = $project.getName() ) 
 #set( $apps = $project.getApps() )
@@ -60,10 +64,198 @@ ALTER TABLE ${appName}_$model.getName().toLowerCase() ADD CONSTRAINT ${appName}_
 #end
 #end
 
+-------------------------------------------------------
+-- TABLAS para el sistema de autenticación de Django --
+-------------------------------------------------------
+
+CREATE TABLE "django_content_type" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "name" varchar(100) NOT NULL,
+    "app_label" varchar(100) NOT NULL,
+    "model" varchar(100) NOT NULL,
+    UNIQUE ("app_label", "model")
+)
+;
+CREATE TABLE "auth_permission" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "name" varchar(50) NOT NULL,
+    "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "codename" varchar(100) NOT NULL,
+    UNIQUE ("content_type_id", "codename")
+)
+;
+CREATE TABLE "auth_group" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "name" varchar(80) NOT NULL UNIQUE
+)
+;
+CREATE TABLE "auth_user" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "username" varchar(30) NOT NULL UNIQUE,
+    "first_name" varchar(30) NOT NULL,
+    "last_name" varchar(30) NOT NULL,
+    "email" varchar(75) NOT NULL,
+    "password" varchar(128) NOT NULL,
+    "is_staff" boolean NOT NULL,
+    "is_active" boolean NOT NULL,
+    "is_superuser" boolean NOT NULL,
+    "last_login" timestamp with time zone NOT NULL,
+    "date_joined" timestamp with time zone NOT NULL
+)
+;
+CREATE TABLE "auth_message" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "message" text NOT NULL
+)
+;
+CREATE TABLE "auth_group_permissions" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED,
+    UNIQUE ("group_id", "permission_id")
+)
+;
+CREATE TABLE "auth_user_groups" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED,
+    UNIQUE ("user_id", "group_id")
+)
+;
+CREATE TABLE "auth_user_user_permissions" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED,
+    UNIQUE ("user_id", "permission_id")
+)
+;
+CREATE INDEX "auth_permission_content_type_id" ON "auth_permission" ("content_type_id");
+CREATE INDEX "auth_message_user_id" ON "auth_message" ("user_id");
+CREATE TABLE "django_admin_log" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "action_time" timestamp with time zone NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "content_type_id" integer REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "object_id" text,
+    "object_repr" varchar(200) NOT NULL,
+    "action_flag" smallint CHECK ("action_flag" >= 0) NOT NULL,
+    "change_message" text NOT NULL
+)
+;
+CREATE INDEX "django_admin_log_user_id" ON "django_admin_log" ("user_id");
+CREATE INDEX "django_admin_log_content_type_id" ON "django_admin_log" ("content_type_id");
+CREATE TABLE "django_session" (
+    "session_key" varchar(40) NOT NULL PRIMARY KEY,
+    "session_data" text NOT NULL,
+    "expire_date" timestamp with time zone NOT NULL
+)
+;
+
 COMMIT;
 
+-------------------------------------------------------
+-- DATOS para poder acceder al admin                 --
+-------------------------------------------------------
 
-
-
-
-
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (1, 'permission', 'auth', 'permission');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (2, 'group', 'auth', 'group');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (3, 'user', 'auth', 'user');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (4, 'message', 'auth', 'message');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (5, 'log entry', 'admin', 'logentry');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (6, 'content type', 'contenttypes', 'contenttype');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (7, 'session', 'sessions', 'session');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (8, 'usuario', 'usuarios', 'usuario');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (9, 'profesor', 'usuarios', 'profesor');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (10, 'administrador', 'usuarios', 'administrador');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (11, 'grupo', 'usuarios', 'grupo');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (12, 'estudiante', 'usuarios', 'estudiante');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (13, 'ejercitario', 'ejercicios', 'ejercitario');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (14, 'ejercicio', 'ejercicios', 'ejercicio');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (15, 'evaluacion', 'ejercicios', 'evaluacion');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (16, 'respuesta', 'ejercicios', 'respuesta');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (17, 'documento', 'documentos', 'documento');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (18, 'suscripto', 'cursos', 'suscripto');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (19, 'curso', 'cursos', 'curso');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (20, 'anuncio', 'cursos', 'anuncio');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (21, 'topico', 'foros', 'topico');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (22, 'mensaje', 'foros', 'mensaje');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (23, 'foro', 'foros', 'foro');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (24, 'unidad academica', 'unidadesacademicas', 'unidadacademica');
+INSERT INTO django_content_type (id, name, app_label, model) VALUES (25, 'tipos unidades academicas', 'unidadesacademicas', 'tiposunidadesacademicas');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (1, 'Can add permission', 1, 'add_permission');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (2, 'Can change permission', 1, 'change_permission');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (3, 'Can delete permission', 1, 'delete_permission');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (4, 'Can add group', 2, 'add_group');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (5, 'Can change group', 2, 'change_group');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (6, 'Can delete group', 2, 'delete_group');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (7, 'Can add user', 3, 'add_user');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (8, 'Can change user', 3, 'change_user');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (9, 'Can delete user', 3, 'delete_user');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (10, 'Can add message', 4, 'add_message');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (11, 'Can change message', 4, 'change_message');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (12, 'Can delete message', 4, 'delete_message');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (13, 'Can add log entry', 5, 'add_logentry');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (14, 'Can change log entry', 5, 'change_logentry');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (15, 'Can delete log entry', 5, 'delete_logentry');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (16, 'Can add content type', 6, 'add_contenttype');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (17, 'Can change content type', 6, 'change_contenttype');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (18, 'Can delete content type', 6, 'delete_contenttype');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (19, 'Can add session', 7, 'add_session');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (20, 'Can change session', 7, 'change_session');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (21, 'Can delete session', 7, 'delete_session');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (22, 'Can add usuario', 8, 'add_usuario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (23, 'Can change usuario', 8, 'change_usuario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (24, 'Can delete usuario', 8, 'delete_usuario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (25, 'Can add profesor', 9, 'add_profesor');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (26, 'Can change profesor', 9, 'change_profesor');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (27, 'Can delete profesor', 9, 'delete_profesor');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (28, 'Can add administrador', 10, 'add_administrador');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (29, 'Can change administrador', 10, 'change_administrador');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (30, 'Can delete administrador', 10, 'delete_administrador');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (31, 'Can add grupo', 11, 'add_grupo');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (32, 'Can change grupo', 11, 'change_grupo');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (33, 'Can delete grupo', 11, 'delete_grupo');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (34, 'Can add estudiante', 12, 'add_estudiante');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (35, 'Can change estudiante', 12, 'change_estudiante');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (36, 'Can delete estudiante', 12, 'delete_estudiante');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (37, 'Can add ejercitario', 13, 'add_ejercitario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (38, 'Can change ejercitario', 13, 'change_ejercitario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (39, 'Can delete ejercitario', 13, 'delete_ejercitario');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (40, 'Can add ejercicio', 14, 'add_ejercicio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (41, 'Can change ejercicio', 14, 'change_ejercicio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (42, 'Can delete ejercicio', 14, 'delete_ejercicio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (43, 'Can add evaluacion', 15, 'add_evaluacion');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (44, 'Can change evaluacion', 15, 'change_evaluacion');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (45, 'Can delete evaluacion', 15, 'delete_evaluacion');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (46, 'Can add respuesta', 16, 'add_respuesta');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (47, 'Can change respuesta', 16, 'change_respuesta');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (48, 'Can delete respuesta', 16, 'delete_respuesta');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (49, 'Can add documento', 17, 'add_documento');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (50, 'Can change documento', 17, 'change_documento');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (51, 'Can delete documento', 17, 'delete_documento');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (52, 'Can add suscripto', 18, 'add_suscripto');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (53, 'Can change suscripto', 18, 'change_suscripto');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (54, 'Can delete suscripto', 18, 'delete_suscripto');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (55, 'Can add curso', 19, 'add_curso');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (56, 'Can change curso', 19, 'change_curso');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (57, 'Can delete curso', 19, 'delete_curso');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (58, 'Can add anuncio', 20, 'add_anuncio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (59, 'Can change anuncio', 20, 'change_anuncio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (60, 'Can delete anuncio', 20, 'delete_anuncio');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (61, 'Can add topico', 21, 'add_topico');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (62, 'Can change topico', 21, 'change_topico');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (63, 'Can delete topico', 21, 'delete_topico');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (64, 'Can add mensaje', 22, 'add_mensaje');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (65, 'Can change mensaje', 22, 'change_mensaje');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (66, 'Can delete mensaje', 22, 'delete_mensaje');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (67, 'Can add foro', 23, 'add_foro');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (68, 'Can change foro', 23, 'change_foro');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (69, 'Can delete foro', 23, 'delete_foro');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (70, 'Can add unidad academica', 24, 'add_unidadacademica');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (71, 'Can change unidad academica', 24, 'change_unidadacademica');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (72, 'Can delete unidad academica', 24, 'delete_unidadacademica');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (73, 'Can add tipos unidades academicas', 25, 'add_tiposunidadesacademicas');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (74, 'Can change tipos unidades academicas', 25, 'change_tiposunidadesacademicas');
+INSERT INTO auth_permission (id, name, content_type_id, codename) VALUES (75, 'Can delete tipos unidades academicas', 25, 'delete_tiposunidadesacademicas');
+INSERT INTO auth_user (id, username, first_name, last_name, email, password, is_staff, is_active, is_superuser, last_login, date_joined) VALUES (1, 'admin', '', '', 'fede.caceres@gmail.com', 'sha1$02181$c14f064117c9b4d61a1a483ba3a8c8ebcb24e3d1', true, true, true, '2010-01-28 22:43:22.034-03', '2010-01-28 22:43:22.034-03');

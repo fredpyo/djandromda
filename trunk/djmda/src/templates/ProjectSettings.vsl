@@ -85,7 +85,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
 
 #foreach($app in $apps)
     '$project_name.$app.getName().toLowerCase()',
