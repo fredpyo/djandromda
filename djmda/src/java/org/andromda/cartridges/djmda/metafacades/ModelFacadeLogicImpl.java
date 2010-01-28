@@ -37,6 +37,7 @@ public class ModelFacadeLogicImpl
 
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#assocToPy()
+     * Retornar las asociaciones en formato de Django.
      */
     protected java.util.Collection handleAssocToPy()
     {
@@ -82,25 +83,11 @@ public class ModelFacadeLogicImpl
         return relArr;
     }
 
-    
+    /**
+     * Retornar las asociaciones de los modelos en formato de PostgreSQL
+     */
     protected java.util.Collection handleFkPGSQL()
     {
-    	/*Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
-    	ArrayList relArr = new ArrayList();
-    	//Collection assocArr2 = this.getAssociatedClasses();
-
-    	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
-    		AssociationEndFacade assoc = (AssociationEndFacade) iterator.next();
-    		assoc = assoc.getOtherEnd(); // queremos tener acceso al otro extremo de la asociación para saber a que clase apunta
-    		if (assoc.isNavigable()) {
-    			ClassifierFacade classifier = assoc.getType(); // horrorible hack que ni entiendo, pero sirva para obtener el tipo de clase objetivo de la relación :D
-        		//String relString = assoc.getName() + " = models.ForeignKey(" + classifier.getName()+ ")";
-    			PGSQLFK relString = new PGSQLFK(classifier.getName(),assoc.getName());
-    			relArr.add(relString);
-    		}
-    	}
-        return relArr;*/
-        
     	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
     	ArrayList relArr = new ArrayList();
 
@@ -110,7 +97,7 @@ public class ModelFacadeLogicImpl
     		String assocFieldString = "";
     		String associationTarget = "";
     		String relatedName = ", related_name = '" + assocStart.getName().toLowerCase() + "'";
-    		String nullable = "";
+    		boolean nullable = false;
     		
     		// detectar el target de la asociación, ya sea otro modelo o 'self'
     		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
@@ -124,7 +111,7 @@ public class ModelFacadeLogicImpl
     		if ((assocStart.isOne2One() && assocEnd.isNavigable()) ||
                 (assocStart.isMany2One()) ||
                 (assocStart.isMany2Many())){
-    			PGSQLFK sqlfk = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getName().toLowerCase());
+    			PGSQLFK sqlfk = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getName().toLowerCase(), new Boolean(assocEnd.getLower() == 0));
     			relArr.add(sqlfk);
     		}
 /*    		
@@ -143,6 +130,7 @@ public class ModelFacadeLogicImpl
 
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#attrToPy()
+     * Retorna los atributos en formato de Django
      */
     protected java.util.Collection handleAttrToPy()
        {
@@ -166,6 +154,7 @@ public class ModelFacadeLogicImpl
 
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#uniqueGroups()
+     * Retorna una lista de columnas que son unicas (para unique_together e indices de UNIQUE)
      */
     protected java.util.Collection handleUniqueGroups(Boolean vslFormat)
     {
@@ -251,6 +240,9 @@ public class ModelFacadeLogicImpl
         return groupsArr;
     }
     
+    /**
+     * Retorna las operaciones en formato de django
+     */
     protected java.util.Collection handleOperToPy()
     {
         // TODO: put your implementation here.
@@ -277,6 +269,7 @@ public class ModelFacadeLogicImpl
 
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#toPGSQL()
+     * Retorna los atributos en formato de PostgreSQL
      */
     protected java.util.Collection handleToPGSQL()
     {
@@ -296,6 +289,9 @@ public class ModelFacadeLogicImpl
         return varArr;
     }
     
+    /**
+     * Obtiene el modelo el cual este generaliza en formato django
+     */
     protected String handleGetGeneralizationModel() {
     	String gen;
     	
@@ -308,6 +304,7 @@ public class ModelFacadeLogicImpl
     }
     
     /**
+     * Función utilitaria para armar la cadena del método de una clase
      * @param argsNameArr
      * @return
      */
