@@ -18,6 +18,19 @@
     </template>
 
 	<template
+        path="templates/ProjectSQL.vsl"
+        outputPattern="${projectPath}/${projectName}.sql"
+        outlet="deploymentreport"
+	overwrite="true"
+		>
+        <modelElements>
+            <modelElement variable="project">  
+<type name="org.andromda.cartridges.djmda.metafacades.ProjectFacade"/>
+            </modelElement>
+        </modelElements>
+    </template>
+	
+	<template
         path="templates/ProjectUrls.vsl"
         outputPattern="${projectPath}/urls.py"
         outlet="deploymentreport"
@@ -88,19 +101,6 @@
 	<template
         path="templates/AppInit.vsl"
         outputPattern="${projectPath}/${appName}/__init__.py"
-        outlet="deploymentreport"
-	overwrite="true"
-		>
-        <modelElements>
-            <modelElement variable="app">  
-<type name="org.andromda.cartridges.djmda.metafacades.AppFacade"/>
-            </modelElement>
-        </modelElements>
-    </template>
-
-		<template
-        path="templates/Pgsql.vsl"
-        outputPattern="${projectPath}/${appName}/${appName}.sql"
         outlet="deploymentreport"
 	overwrite="true"
 		>

@@ -23,9 +23,10 @@ public class ProjectFacadeLogicImpl
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ProjectFacade#prueba()
      */
-    protected void handlePrueba()
+    protected String handleGetProjectSQL()
     {
         // TODO: put your implementation here.
+    	return null;
     }
 
     /**

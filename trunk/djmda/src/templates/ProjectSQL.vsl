@@ -1,0 +1,69 @@
+BEGIN;
+#set( $projectPath = $project.getName().toLowerCase())
+#set( $projectName = $project.getName() ) 
+#set( $apps = $project.getApps() )
+#foreach ( $app in $apps)
+#set( $appName = $app.getName().toLowerCase())
+#set( $models = $app.getModels() )
+
+#foreach($model in $models) ## begin modelos
+#set( $keys = $model.fkPGSQL() )
+#set( $sqls = $model.toPGSQL() )
+
+CREATE TABLE "${appName}_$model.getName().toLowerCase()" (
+#foreach($sql in $sqls)
+	$sql	
+#end
+#foreach($key in $keys)
+	"${key.name}_id" integer NOT NULL,
+#end
+	"id" serial NOT NULL PRIMARY KEY        
+);
+#*
+#foreach($key in $keys)
+CREATE INDEX "${appName}_${model.getName().toLowerCase()}_${key.name}_id" ON "${appName}_$model.getName().toLowerCase()" ("${key.name}_id");
+#end
+*#
+#end
+#end
+
+-- AGREGAR FOREIGN KEYS
+#foreach ( $app in $apps)
+#set( $appName = $app.getName().toLowerCase())
+#foreach ( $model in $app.getModels() )
+#set( $keys = $model.fkPGSQL() )
+#foreach($key in $keys)
+ALTER TABLE ${appName}_$model.getName().toLowerCase() ADD FOREIGN KEY ("${key.name}_id") REFERENCES "$key.table.toLowerCase()" ("id") DEFERRABLE INITIALLY DEFERRED;
+#end
+#end
+#end
+
+-- AGREGAR INDICIES
+#foreach ( $app in $apps)
+#set( $appName = $app.getName().toLowerCase())
+#foreach ( $model in $app.getModels() )
+#set( $keys = $model.fkPGSQL() )
+#foreach($key in $keys)
+CREATE INDEX "${appName}_${model.getName().toLowerCase()}_${key.name}_id" ON "${appName}_${model.getName().toLowerCase()}" ("${key.name}_id");
+#end
+#end
+#end
+
+-- AGREGAR UNIQUES
+#foreach ( $app in $apps)
+#set( $appName = $app.getName().toLowerCase())
+#foreach ( $model in $app.getModels() )
+#set( $keys = $model.fkPGSQL() )
+#foreach( $unique_group in $model.uniqueGroups(true))
+ALTER TABLE ${appName}_$model.getName().toLowerCase() ADD CONSTRAINT ${appName}_${model.getName().toLowerCase()}_ut_$velocityCount UNIQUE ($unique_group);
+#end
+#end
+#end
+
+COMMIT;
+
+
+
+
+
+

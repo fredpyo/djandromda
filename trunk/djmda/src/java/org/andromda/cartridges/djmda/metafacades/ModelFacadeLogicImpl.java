@@ -57,18 +57,7 @@ public class ModelFacadeLogicImpl
     			associationTarget = "'self'";
     		else
     			associationTarget = "'"+ assocEnd.getType().getPackage().getName().toLowerCase() + "." + assocEnd.getType().getName()+"'";
-    		//System.out.println(this.getName() +"+"+assocEnd.getType().getName()+"="+ associationTarget);
     		
-    		/*
-    		System.out.println();
-    		System.out.println(assocStart.getType().getName());
-    		System.out.println("isMany:" + assocStart.isMany());
-    		System.out.println("isMany2One:" + assocStart.isMany2One());
-    		System.out.println("isMany2Many:" + assocStart.isMany2Many());
-    		System.out.println("isOne2One:" + assocStart.isOne2One());
-    		System.out.println("isOne2Many:" + assocStart.isOne2Many());
-    		*/
-
     		/**
     		 * Determinar el tipo de asociación dependiendo de si es un one2one, many2one, many2many
     		 */
@@ -79,9 +68,6 @@ public class ModelFacadeLogicImpl
     		} else if (assocStart.isMany2Many() && assocEnd.isNavigable()){
     			assocFieldString = " = models.ManyToManyField(";
     		}
-    		/**
-    		 * Determinar el related field
-    		 */
     		
     		// manejar campos nullable 
     		if (assocEnd.getLower() == 0)
@@ -99,7 +85,7 @@ public class ModelFacadeLogicImpl
     
     protected java.util.Collection handleFkPGSQL()
     {
-    	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
+    	/*Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
     	ArrayList relArr = new ArrayList();
     	//Collection assocArr2 = this.getAssociatedClasses();
 
@@ -112,6 +98,45 @@ public class ModelFacadeLogicImpl
     			PGSQLFK relString = new PGSQLFK(classifier.getName(),assoc.getName());
     			relArr.add(relString);
     		}
+    	}
+        return relArr;*/
+        
+    	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
+    	ArrayList relArr = new ArrayList();
+
+    	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
+    		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
+    		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
+    		String assocFieldString = "";
+    		String associationTarget = "";
+    		String relatedName = ", related_name = '" + assocStart.getName().toLowerCase() + "'";
+    		String nullable = "";
+    		
+    		// detectar el target de la asociación, ya sea otro modelo o 'self'
+    		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
+    			associationTarget = "'self'";
+    		else
+    			associationTarget = "'"+ assocEnd.getType().getPackage().getName().toLowerCase() + "." + assocEnd.getType().getName()+"'";
+    		
+    		/**
+    		 * Si es de tipo one2one, many2one, many2many entonces lo aceptamos
+    		 */
+    		if ((assocStart.isOne2One() && assocEnd.isNavigable()) ||
+                (assocStart.isMany2One()) ||
+                (assocStart.isMany2Many())){
+    			PGSQLFK sqlfk = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getName().toLowerCase());
+    			relArr.add(sqlfk);
+    		}
+/*    		
+    		// manejar campos nullable 
+    		if (assocEnd.getLower() == 0)
+    			nullable = ", null=True, blank=True";
+    		
+    		// formar el string final
+    		if (!assocFieldString.equals("")) {
+        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + associationTarget + nullable + relatedName + ")";
+        		relArr.add(relString);
+    		}*/
     	}
         return relArr;
     }
@@ -142,7 +167,7 @@ public class ModelFacadeLogicImpl
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ModelFacade#uniqueGroups()
      */
-    protected java.util.Collection handleUniqueGroups()
+    protected java.util.Collection handleUniqueGroups(Boolean vslFormat)
     {
     	HashMap grupos = new HashMap(); // diccionario de grupos, cada elemento es un string de nombres de columnas en el grupo
     	Collection attrArr = this.getAttributes(); //se obtienen todos los atributos de la clase
@@ -187,11 +212,7 @@ public class ModelFacadeLogicImpl
     		// obtener el extremo opuesta al a clase
     		AssociationEndFacade assocEnd = ((AssociationEndFacade)iterator.next()).getOtherEnd();
     		// detectar si es referencia a otra tabla o a la misma... otro modelo o 'self'
-    		String associationTarget = null;
-    		if (assocEnd.getType().getName().equals(this.getName()) && assocEnd.getType().getPackageName().equals(this.getPackageName()))
-    			associationTarget = "'self'";
-    		else
-    			associationTarget = assocEnd.getName().toLowerCase();
+    		String associationName = assocEnd.getName().toLowerCase() + (vslFormat.equals(new Boolean(true)) ? "_id" : "");
     		// recorrer los tags del assocEnd
     		for (Iterator tags = assocEnd.getTaggedValues().iterator(); tags.hasNext();) {
 				TaggedValueFacade tag = (TaggedValueFacade) tags.next();
@@ -202,12 +223,12 @@ public class ModelFacadeLogicImpl
 						try {
 							String group = (String) groups.next();
 							if (grupos.get(group) != null) {
-								grupos.put(group, grupos.get(group) + ", " + '"' + associationTarget + '"');
+								grupos.put(group, grupos.get(group) + ", " + '"' + associationName + '"');
 							} else {
-								grupos.put(group, '"' + associationTarget + '"');
+								grupos.put(group, '"' + associationName + '"');
 							}
 						} catch (Exception e ) {
-							System.out.println("[djMDA :: WARNING] No se pudo leer un valor del tag '" + tag.getName() + "' en el extremo de asociación '" + associationTarget + "' en el modelo '" + this.getName() + "'.");
+							System.out.println("[djMDA :: WARNING] No se pudo leer un valor del tag '" + tag.getName() + "' en el extremo de asociación '" + associationName + "' en el modelo '" + this.getName() + "'.");
 						}
 					}
 				}
