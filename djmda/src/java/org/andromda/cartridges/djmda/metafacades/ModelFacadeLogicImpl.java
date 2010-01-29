@@ -90,11 +90,12 @@ public class ModelFacadeLogicImpl
     	Collection assocArr = this.getAssociationEnds(); // obtiene la lista de association ends que apuntan a esta clase
     	ArrayList relArr = new ArrayList();
 
+    	// recorrer cada asociación e ir bisectando sus componentes para formar el FK
     	for (Iterator iterator = assocArr.iterator(); iterator.hasNext();) {
     		AssociationEndFacade assocStart = (AssociationEndFacade) iterator.next();
     		AssociationEndFacade assocEnd = assocStart.getOtherEnd();
-    		String assocFieldString = "";
-    		String associationTarget = "";
+    		String assocFieldString = ""; // nombre que tendrá el FK
+    		String associationTarget = ""; // objetivo del FK
     		String relatedName = ", related_name = '" + assocStart.getName().toLowerCase() + "'";
     		boolean nullable = false;
     		
@@ -113,16 +114,6 @@ public class ModelFacadeLogicImpl
     			PGSQLFK sqlfk = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getName().toLowerCase(), new Boolean(assocEnd.getLower() == 0));
     			relArr.add(sqlfk);
     		}
-/*    		
-    		// manejar campos nullable 
-    		if (assocEnd.getLower() == 0)
-    			nullable = ", null=True, blank=True";
-    		
-    		// formar el string final
-    		if (!assocFieldString.equals("")) {
-        		String relString = assocEnd.getName().toLowerCase() + assocFieldString + associationTarget + nullable + relatedName + ")";
-        		relArr.add(relString);
-    		}*/
     	}
         return relArr;
     }
@@ -187,7 +178,6 @@ public class ModelFacadeLogicImpl
 					}
 				}
 			}
-			//System.out.println(this.getName() + "::" + grupos);
     	}
     	
     	/**
@@ -303,7 +293,7 @@ public class ModelFacadeLogicImpl
     }
     
     /**
-     * Obtiene 
+     * Obtiene un FK a la tabla que esta tabla extiende
      */
     protected PGSQLFK handleGetParentTable() {
     	if (this.getGeneralization() == null)
