@@ -173,9 +173,10 @@ public class DjDataTypeImpl
     	if(bool.equals("true")){
     		return " True ";
     	}
-    	else{
+    	else if(bool.equals("false")){
     		return " False ";
     	}
+    	return null;
     }
     /**
      * @see org.andromda.cartridges.djmda.psm.DjDataType#toPgSql()
