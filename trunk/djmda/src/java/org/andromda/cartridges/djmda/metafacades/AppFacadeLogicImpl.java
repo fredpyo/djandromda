@@ -36,6 +36,7 @@ public class AppFacadeLogicImpl
     }
     /**
      * @see org.andromda.cartridges.djmda.metafacades.AppFacade#getModels()
+     * Retornar los modelos asociados a este Facade
      */
     protected java.util.Collection handleGetModels()
     {
@@ -60,6 +61,7 @@ public class AppFacadeLogicImpl
     
     /**
      * @see org.andromda.cartridges.djmda.metafacades.AppFacade#getModels()
+     * Obtener la lista de Enumeraciones (Choices) dentro de esta Aplicación
      */
     protected java.util.Collection handleGetChoices()
     {
@@ -72,23 +74,12 @@ public class AppFacadeLogicImpl
 				choices.add(new ChoiceFacadeLogicImpl(sd, null));
 			}
     	}
-    	
-    	/*CollectionUtils.filter(choices, new Predicate() {
-    		public boolean evaluate(Object object) {
-    			try {
-        			final ClassifierFacade sd = (ClassifierFacade) object;
-        			return true;    				
-    			} catch (Exception ex) {
-    				return false;
-    			}
-    		}
-    	});*/
-    	
         return choices;
     }
     
     /**
      * @see org.andromda.cartridges.djmda.metafacades.AppFacade#importModelsToPy()
+     * Retornar la lista de modelos a importar según los FK de los modelos de esta App
      */
     protected java.util.Collection handleImportModelsToPy()
     {

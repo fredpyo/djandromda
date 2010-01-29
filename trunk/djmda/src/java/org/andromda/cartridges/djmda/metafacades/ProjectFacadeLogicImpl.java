@@ -31,6 +31,7 @@ public class ProjectFacadeLogicImpl
 
     /**
      * @see org.andromda.cartridges.djmda.metafacades.ProjectFacade#getApps()
+     * Retornar las Apps asociadas a este Facade
      */
     protected java.util.Collection handleGetApps()
     {

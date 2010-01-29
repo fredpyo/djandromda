@@ -79,14 +79,7 @@ public class DjDataTypeImpl
 	    	//AQUI SE RECOORRRE LOS PARAMETROS Y SE LOS PARSEA CON PYPARSER sI ES djfield SE PARSEA LA CABECERA 
 	    	for (Iterator iterator = this.parameters.iterator(); iterator.hasNext();) {
 	        		DjDataTypeParameter pivot = (DjDataTypeParameter) iterator.next();
-	        		//if(pivot.getKey().equals("djfield")){
-	    			//	headfield = pyParser(pivot.getKey(),(String)pivot.getValue());
-	    			//}else{
 	    				field += pyParser(pivot.getKey(),(String)pivot.getValue());
-	    			//}
-	    			//fields += ", " + pivot.getKey() + " = " + (String)pivot.getValue() ;
-	    		    
-	    				
 	    	}
         
     		//ESTO MANEJA LA CABECERA DEL TIPO DE DATO
@@ -107,8 +100,10 @@ public class DjDataTypeImpl
         			field += "max_length = 100,";
         		}
     		}
-    		// valor por default
     		
+    		/**
+    		 * Definir el tipo de campo...
+    		 */
     		if (this.getType().getName().equals("Integer")){
     			headfield = "models.IntegerField(";
     		}
@@ -133,8 +128,6 @@ public class DjDataTypeImpl
     private String pyParser(String key, String value) {
         if (key.equals("djfield")){
         	return "";
-        	//return "widget=forms.PasswordInput(render_value=False),";
-        	//return "models.PasswordField(";
         }
         if (key.equals("unique")){
         	return " unique = " + trueParser(value)+ ",";
@@ -169,6 +162,9 @@ public class DjDataTypeImpl
          */
     
     //NO TENIA GANAS DE ESCRIBR TANTAS VECES TRUE FALSE
+    /**
+     * Parsea una cadena a ver si es true o false... y retorna el booleano en notación Python
+     */
     private String trueParser(String bool) {
     	if(bool.equals("true")){
     		return " True ";
@@ -208,6 +204,13 @@ public class DjDataTypeImpl
     	}
     	return headfield+field+nullable+unique+",";
     }
+    
+    /**
+     * Parseo auxiliar para SQL
+     * @param key
+     * @param value
+     * @return
+     */
     private String sqlParser(String key, String value) {
     	
     	if (key.equals("djfield")){
@@ -225,7 +228,11 @@ public class DjDataTypeImpl
     	return "";
     }
     
-    
+    /**
+     * Retornar el tipo de columna para un Type dado...
+     * @param value
+     * @return
+     */
     private String sqlType(String value) {
     	if (this.getType().isEnumeration()) {
     		return "varchar(50)";
@@ -253,7 +260,6 @@ public class DjDataTypeImpl
 			
 		}
 		return "";
- 
     }
 }
 
