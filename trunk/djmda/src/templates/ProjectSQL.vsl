@@ -21,7 +21,7 @@ CREATE TABLE "${appName}_$model.getName().toLowerCase()" (
 #foreach($key in $keys)
 	"${key.name}_id" integer #if (${key.nullable} == true) NULL #else NOT NULL #end,
 #end
-	"id" serial NOT NULL PRIMARY KEY        
+	${model.getModelId()} serial NOT NULL PRIMARY KEY        
 );
 #*
 #foreach($key in $keys)
@@ -49,13 +49,17 @@ CREATE TABLE ${model.name} (
 #end
 #end
 
--- AGREGAR FOREIGN KEYS
+-- AGREGAR FOREIGN KEYS y REFERENCIAS AL PADRE (HERENCIA)
 #foreach ( $app in $apps)
 #set( $appName = $app.getName().toLowerCase())
 #foreach ( $model in $app.getModels() )
 #set( $keys = $model.fkPGSQL() )
 #foreach($key in $keys)
-ALTER TABLE ${appName}_$model.getName().toLowerCase() ADD FOREIGN KEY ("${key.name}_id") REFERENCES "$key.table.toLowerCase()" ("id") DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ${appName}_${model.getName().toLowerCase()} ADD FOREIGN KEY ("${key.name}_id") REFERENCES "${key.table.toLowerCase()}" ("id") DEFERRABLE INITIALLY DEFERRED;
+#end
+#if ( $model.getParentTable() )
+#set( $parent = $model.getParentTable() )
+ALTER TABLE ${appName}_${model.getName().toLowerCase()} ADD FOREIGN KEY ("${parent.name}") REFERENCES "${parent.table.toLowerCase()}" ("id") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 #end
 #end
 #end

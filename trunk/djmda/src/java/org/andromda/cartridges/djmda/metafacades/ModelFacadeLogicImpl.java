@@ -29,8 +29,7 @@ import org.andromda.metafacades.uml.TaggedValueFacade;
 public class ModelFacadeLogicImpl
     extends ModelFacadeLogic
 {
-
-    public ModelFacadeLogicImpl (Object metaObject, String context)
+	public ModelFacadeLogicImpl (Object metaObject, String context)
     {
         super (metaObject, context);
     }
@@ -303,6 +302,35 @@ public class ModelFacadeLogicImpl
     	return gen;
     }
     
+    /**
+     * Obtiene 
+     */
+    protected PGSQLFK handleGetParentTable() {
+    	if (this.getGeneralization() == null)
+    		return null;
+		else {
+			PGSQLFK fk = new PGSQLFK();
+			ModelFacade gen = new ModelFacadeLogicImpl(this.getGeneralization(), null);
+			fk.setName(gen.getName().toLowerCase() + "_ptr_id");
+			fk.setTable(gen.getPackage().getName().toLowerCase() + "_" + gen.getName().toLowerCase());
+			fk.setNullable(new Boolean(false));
+			return fk;
+		}
+    }
+    
+    /**
+     * Retornar el campo ID o PK de este modelo
+     * @return String
+     */
+    protected String handleGetModelId() {
+    	// TODO: implementar tipos de ID cambiables
+    	if (this.getGeneralization() == null)
+    		return "id";
+    	else {
+    		return this.getGeneralization().getName().toLowerCase() + "_ptr_id";
+    	}
+    }
+    			
     /**
      * Función utilitaria para armar la cadena del método de una clase
      * @param argsNameArr
