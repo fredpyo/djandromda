@@ -55,7 +55,7 @@ $model.getDocumentation("    ", 80, false)
 #end
     class Meta:
         unique_together = (
-#foreach( $unique_group in $model.uniqueGroups())
+#foreach( $unique_group in $model.uniqueGroups(false))
             ($unique_group),
 #end
         )
