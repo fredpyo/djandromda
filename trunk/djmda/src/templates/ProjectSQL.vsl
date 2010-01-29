@@ -19,7 +19,7 @@ CREATE TABLE "${appName}_$model.getName().toLowerCase()" (
 	$sql	
 #end
 #foreach($key in $keys)
-	"${key.name}_id" integer NOT NULL,
+	"${key.name}_id" integer #if (${key.nullable} == true) NULL #else NOT NULL #end,
 #end
 	"id" serial NOT NULL PRIMARY KEY        
 );
@@ -28,6 +28,24 @@ CREATE TABLE "${appName}_$model.getName().toLowerCase()" (
 CREATE INDEX "${appName}_${model.getName().toLowerCase()}_${key.name}_id" ON "${appName}_$model.getName().toLowerCase()" ("${key.name}_id");
 #end
 *#
+#end
+#end
+
+-- AGREGAR TABLAS M2M
+#foreach ( $app in $apps)
+#set( $appName = $app.getName().toLowerCase())
+#foreach ( $model in $app.getM2MTables() )
+#set( $keys = $model.getFks() )
+
+CREATE TABLE ${model.name} (
+#foreach($key in $keys)
+	"${key.name}_id" integer NOT NULL,
+	CONSTRAINT ${model.name}_${key.name}_id FOREIGN KEY (${key.name}_id)
+		REFERENCES ${key.table} (id) MATCH SIMPLE
+		ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+#end
+	"id" serial NOT NULL PRIMARY KEY
+);
 #end
 #end
 

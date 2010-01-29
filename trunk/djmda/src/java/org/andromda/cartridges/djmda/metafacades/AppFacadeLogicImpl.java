@@ -2,13 +2,18 @@ package org.andromda.cartridges.djmda.metafacades;
 
 import java.text.ChoiceFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.andromda.cartridges.djmda.metafacades.ModelFacade;
+import org.andromda.cartridges.djmda.psm.M2MTable;
+import org.andromda.cartridges.djmda.psm.PGSQLFK;
 import org.andromda.metafacades.uml.AssociationEndFacade;
+import org.andromda.metafacades.uml.AssociationFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
@@ -112,6 +117,66 @@ public class AppFacadeLogicImpl
     		}
     	}
         return imports;
+    }
+    
+    /**
+     * Retornar las tablas Many2Many
+     */
+    protected java.util.Collection handleGetM2MTables()
+    {
+    	Collection models = this.getModels();
+    	ArrayList m2mTables = new ArrayList();
+
+    	try {
+	    	for (Iterator iterator = models.iterator(); iterator.hasNext();) {
+	    		ModelFacade model = (ModelFacadeLogicImpl) iterator.next();
+	    		for (Iterator assocIterator = model.getAssociationEnds().iterator(); assocIterator.hasNext();) {
+	    			AssociationFacade assoc = (AssociationFacade)((AssociationEndFacade)assocIterator.next()).getAssociation();
+	    			
+	    			// detectar asociaciones M2M
+	    			if (assoc.isMany2Many()) {
+	    				// generar el nombre de la tabla M2M ordenando el nombre de las tablas involucradas de manera alfabética:
+	    				// Perro * <---> * Dueño
+	    				// Se traduce a
+	    				// dueño_perro
+	    				String prefix = null;
+	    				ArrayList names = new ArrayList();
+	    				names.add(assoc.getAssociationEndA().getType().getName().toLowerCase());
+	    				names.add(assoc.getAssociationEndB().getType().getName().toLowerCase());
+	    				Collections.sort(names);
+	    				// determinar el prefijo del nombre utilizando el package donde se encuentra el modelo desde el cual se puede navegar
+	    				if (assoc.getAssociationEndA().isNavigable())
+	    					prefix = assoc.getAssociationEndB().getType().getPackage().getName().toLowerCase();
+	    				else
+	    					prefix = assoc.getAssociationEndA().getType().getPackage().getName().toLowerCase();
+	    				// crear tabla M2M
+	    				M2MTable table = new M2MTable(prefix + "_" + names.get(0) + "_" + names.get(1), null);
+	    				// añadir los FK
+	    				PGSQLFK[] fks = new PGSQLFK[2];
+	    				AssociationEndFacade assocEnd = assoc.getAssociationEndA();
+	    				fks[0] = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getOtherEnd().getName().toLowerCase(), new Boolean(assocEnd.getLower() == 0));
+	    				assocEnd = assoc.getAssociationEndB();
+	    				fks[1] = new PGSQLFK(assocEnd.getType().getPackage().getName().toLowerCase() + "_" + assocEnd.getType().getName().toLowerCase(), assocEnd.getOtherEnd().getName().toLowerCase(), new Boolean(assocEnd.getLower() == 0));
+	    				table.setFks(Arrays.asList(fks));
+	    				// guardar
+	    				// HACK hashset barato, complejidad O(n)
+	    				boolean addThis = true;
+	    				for (Iterator i = m2mTables.iterator(); i.hasNext();) {
+	    					if (((M2MTable)i.next()).getName().equals(table.getName())) {
+	    						addThis = false;
+	    						break;
+	    					}
+	    				}
+	    				if (addThis)
+	    					m2mTables.add(table);
+	    			}
+	
+	    		}
+	    	}
+    	} catch (Exception e) {
+    		System.out.println("*******" + e.getMessage());
+    	}
+    	return m2mTables;
     }
  
     protected String handleGetProjectName() {
